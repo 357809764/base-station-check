@@ -136,6 +136,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             }
         });
 
+
         MaskView maskView = (MaskView) findViewById(R.id.btn_hide);
         maskView.setRepeatClickListener(new MaskView.OnRepeatClickListener() {
             @Override
