@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RadioGroup
+        android:id="@+id/svpn_auth_tabheader"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="0dp">
+
+        <RadioButton
+            style="@style/AuthTabHeaderIndicator"
+            android:id="@+id/svpn_userAuth_tabheader"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="@string/str_tab_password"
+            android:checked="true"/>
+
+        <RadioButton
+            style="@style/AuthTabHeaderIndicator"
+            android:id="@+id/svpn_certAuth_tabheader"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:visibility="visible"
+            android:text="@string/str_tab_cert" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:background="@drawable/shape_corner"
+        android:id="@+id/svpn_userAuth_layout"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <com.sangfor.vpn.vpndemo.SFEditText
+            android:id="@+id/svpn_username_editView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableLeft="@mipmap/icon_user"
+            android:drawablePadding="15dp"
+            android:hint="用户名"
+            android:textSize="16dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#999999"/>
+
+        <com.sangfor.vpn.vpndemo.SFEditText
+            android:id="@+id/svpn_userPassword_editView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableLeft="@mipmap/icon_psw"
+            android:drawablePadding="15dp"
+            android:hint="密码"
+            android:textSize="16dp"
+            android:inputType="textPassword"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/shape_corner"
+        android:id="@+id/svpn_certAuth_layout"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.sangfor.vpn.vpndemo.SFEditText
+                android:id="@+id/svpn_certPath_editView"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableLeft="@mipmap/icon_user"
+                android:drawablePadding="15dp"
+                android:hint="证书路径"
+                android:textSize="16dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/svpn_certFile_select_imageView"
+                android:background="@mipmap/icon_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#999999"/>
+
+        <com.sangfor.vpn.vpndemo.SFEditText
+            android:id="@+id/svpn_certPassword_editView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableLeft="@mipmap/icon_psw"
+            android:drawablePadding="15dp"
+            android:hint="证书密码"
+            android:textSize="16dp"
+            android:inputType="textPassword"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:singleLine="true" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
