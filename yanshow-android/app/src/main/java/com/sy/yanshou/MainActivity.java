@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -58,6 +60,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private VPNWebView webView;
     private View viewSetting;
     private boolean isFirstLogin = true;
+    private int reLoginCount;
 
     private SangforAuthManager mSFManager = null;
     private VPNMode mVpnMode = VPNMode.L3VPN;            //默认开启L3VPN模式
@@ -85,6 +88,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Bugly初始化
+        CrashReport.initCrashReport(this, "6bb59cb000", false);
+
         initLoginParms();
         //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
         if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
@@ -103,6 +109,11 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         initView();
         initClickEvents();
         setLoginInfo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     /**
@@ -128,6 +139,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             @Override
             public void onClick(View v) {
                 isClickedLogout = false;
+                reLoginCount = 0;
+                handler.removeCallbacks(reLoginRunnable);
 
                 SangforAuthManager.getInstance().vpnLogout();
 
@@ -177,12 +190,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
 
             // 离线3s后重连
             if (vpnStatus != IVpnDelegate.VPNStatus.VPNONLINE && !isClickedLogout) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        doVPNLogin();
-                    }
-                }, 3000);
+                handler.removeCallbacks(reLoginRunnable);
+                handler.postDelayed(reLoginRunnable, 5000);
             }
         }
     };
@@ -270,7 +279,6 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         if (isFinishing()) {
             return;
         }
-        initLoginParms();
 
         //开启登录进度框
         createWaitingProgressDialog();
@@ -335,7 +343,11 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         } else {
             Toast.makeText(this, R.string.str_login_failed, Toast.LENGTH_SHORT).show();
         }
-        viewSetting.setVisibility(View.VISIBLE);
+        reLoginCount += 1;
+        if (reLoginCount < 3) {
+            handler.removeCallbacks(reLoginRunnable);
+            handler.postDelayed(reLoginRunnable, 5000);
+        }
     }
 
     /**
@@ -349,8 +361,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         //停止登录进度框
         cancelWaitingProgressDialog();
         // 存在多认证, 需要进行下一次认证
-        Toast.makeText(this, getString(R.string.str_next_auth) +
-                SFUtils.getAuthTypeDescription(nextAuthType), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, getString(R.string.str_next_auth) + SFUtils.getAuthTypeDescription(nextAuthType), Toast.LENGTH_SHORT).show();
         SangforAuthDialog sfAuthDialog = new SangforAuthDialog(this);
         createAuthDialog(sfAuthDialog, nextAuthType, message);
         mDialog.show();
@@ -361,12 +372,14 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
      */
     @Override
     public void onLoginSuccess() {
+        reLoginCount = 0;
         //停止登录进度框
         cancelWaitingProgressDialog();
         //保存登录信息
         saveLoginInfo();
         // 认证成功后即可开始访问资源
         doResourceRequest();
+        handler.removeCallbacks(reLoginRunnable);
     }
 
     /**
@@ -444,7 +457,12 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                 case AUTH_TYPE_PASSWORD:
                     EditText etUserName = (EditText) dialogView.findViewById(R.id.et_username);
                     EditText etPwd = (EditText) dialogView.findViewById(R.id.et_password);
-                    mSFManager.doPasswordAuth(etUserName.getText().toString(), etPwd.getText().toString());
+                    mUserName = etUserName.getText().toString();
+                    mUserPassword = etPwd.getText().toString();
+                    mUserNameEditView.setText(mUserName);
+                    mUserPasswordEditView.setText(mUserPassword);
+                    doVPNLogin();
+                    //mSFManager.doPasswordAuth(etUserName.getText().toString(), etPwd.getText().toString());
                     break;
                 case AUTH_TYPE_SMS:
                     EditText etVerfCode = (EditText) dialogView.findViewById(R.id.et_verficationCode);
@@ -515,6 +533,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(layoutId, null);
         switch (aythtype) {
+            case AUTH_TYPE_PASSWORD: {
+                EditText etUserName = (EditText) dialogView.findViewById(R.id.et_username);
+                EditText etPwd = (EditText) dialogView.findViewById(R.id.et_password);
+                etUserName.setText(mUserName);
+                etPwd.setText(mUserPassword);
+                break;
+            }
             case AUTH_TYPE_SMS:
                 TextView tvTel = (TextView) dialogView.findViewById(R.id.tv_tel);
                 final Button btnGetVerficationCode = (Button) dialogView.findViewById(R.id.bt_getVerficationCode);
@@ -736,4 +761,15 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     protected void permissionGrantedFail() {
         Toast.makeText(MainActivity.this, R.string.str_permission_not_all_pass, Toast.LENGTH_SHORT).show();
     }
+
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable reLoginRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mDialog != null && mDialog.isShowing()) {
+                return;
+            }
+            doVPNLogin();
+        }
+    };
 }

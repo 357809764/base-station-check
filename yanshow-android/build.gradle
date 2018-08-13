@@ -14,10 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://github.com/bonree/classrewriter/raw/master' }
         jcenter()
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

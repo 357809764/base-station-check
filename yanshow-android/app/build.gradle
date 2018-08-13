@@ -12,21 +12,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        debugKey {
-            storeFile file("appcan.keystore")
-            keyAlias 'androiddebugkey'
-            storePassword '123456'
-            keyPassword '123456'
-        }
-
-        releaseKey {
-            storeFile file("appcan.keystore")
-            keyAlias 'androiddebugkey'
-            storePassword '123456'
-            keyPassword '123456'
-        }
-    }
 
     buildTypes {
         release {
@@ -40,6 +25,8 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+
 }
 
 dependencies {
@@ -49,4 +36,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
+
 }
