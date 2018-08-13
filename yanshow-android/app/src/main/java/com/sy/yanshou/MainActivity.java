@@ -90,6 +90,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         initLoginParms();
         //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
         if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
+            isFirstLogin = true;
             try {
                 //开启登录进度框
                 createWaitingProgressDialog();
