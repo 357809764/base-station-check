@@ -58,6 +58,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private static final int DEFAULT_SMS_COUNTDOWN = 30;       //短信验证码默认倒计时时间
 
     private VPNWebView webView;
+    private boolean isFirstLoginSuccess;
     private View viewSetting;
     private boolean isFirstLogin = true;
     private int reLoginCount;
@@ -69,7 +70,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private String mVpnAddress = "https://218.85.155.91:443";
     private String mUserName = "fjzhengxy";
     private String mUserPassword = "aqgz.#2000GXB";
-    private boolean isClickedLogout;
+    private boolean isClickedLogin;
 
     //主认证默认采用用户名+密码方式
     private int mAuthMethod = AUTH_TYPE_PASSWORD;
@@ -138,7 +139,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isClickedLogout = false;
+                isClickedLogin = true;
                 reLoginCount = 0;
                 handler.removeCallbacks(reLoginRunnable);
 
@@ -189,7 +190,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             Toast.makeText(MainActivity.this, status, Toast.LENGTH_SHORT).show();
 
             // 离线3s后重连
-            if (vpnStatus != IVpnDelegate.VPNStatus.VPNONLINE && !isClickedLogout) {
+            if (vpnStatus != IVpnDelegate.VPNStatus.VPNONLINE && !isClickedLogin) {
                 handler.removeCallbacks(reLoginRunnable);
                 handler.postDelayed(reLoginRunnable, 5000);
             }
@@ -343,11 +344,15 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         } else {
             Toast.makeText(this, R.string.str_login_failed, Toast.LENGTH_SHORT).show();
         }
-        reLoginCount += 1;
-        if (reLoginCount < 3) {
-            handler.removeCallbacks(reLoginRunnable);
-            handler.postDelayed(reLoginRunnable, 5000);
+
+        if (!isClickedLogin) {
+            reLoginCount += 1;
+            if (reLoginCount < 3) {
+                handler.removeCallbacks(reLoginRunnable);
+                handler.postDelayed(reLoginRunnable, 5000);
+            }
         }
+        isClickedLogin = false;
     }
 
     /**
@@ -365,6 +370,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         SangforAuthDialog sfAuthDialog = new SangforAuthDialog(this);
         createAuthDialog(sfAuthDialog, nextAuthType, message);
         mDialog.show();
+
+        isClickedLogin = false;
     }
 
     /**
@@ -692,7 +699,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
      */
     private void doResourceRequest() {
         viewSetting.setVisibility(View.GONE);
-        webView.reload();
+        if (!isFirstLoginSuccess) {
+            isFirstLoginSuccess = true;
+            webView.reload();
+        }
     }
 
 
