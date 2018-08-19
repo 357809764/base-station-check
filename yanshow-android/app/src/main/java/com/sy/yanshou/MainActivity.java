@@ -37,7 +37,12 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
+import com.sy.yanshou.bean.NetChangeEvent;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -92,6 +97,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         //Bugly初始化
         CrashReport.initCrashReport(this, "6bb59cb000", false);
 
+        EventBus.getDefault().register(this);
+
         initLoginParms();
         //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
         if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
@@ -110,11 +117,14 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         initView();
         initClickEvents();
         setLoginInfo();
+
+        NetMonitorServer.startServer(getApplicationContext());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -782,4 +792,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             doVPNLogin();
         }
     };
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NetChangeEvent event) {
+        android.util.Log.d(TAG, "NetChangeEvent:" + event.isWifi);
+    }
 }

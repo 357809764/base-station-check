@@ -46,11 +46,12 @@ public abstract class BaseCheckPermissionActivity extends AppCompatActivity
     protected abstract void permissionGrantedFail();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         if (isNeedCheckPermission) {
             checkAllNeedPermissions();
         }
+        isNeedCheckPermission = false;
     }
 
     /**
