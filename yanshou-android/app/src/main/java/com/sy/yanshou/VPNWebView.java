@@ -17,7 +17,7 @@ import com.sangfor.ssl.service.utils.logger.Log;
 public class VPNWebView extends WebView {
     private static final String TAG = "AuthSuccessActivity";
     private final int TEST_URL_TIMEOUT_MILLIS = 8 * 1000;// 测试vpn资源的超时时间
-    private String url = "http://120.36.56.152:3694/?ys_ver=i1";
+    private String url = "http://134.129.112.108:3694/?ys_ver=i1";//"http://120.36.56.152:3694/?ys_ver=i1";
 
     public VPNWebView(Context context) {
         super(context);
