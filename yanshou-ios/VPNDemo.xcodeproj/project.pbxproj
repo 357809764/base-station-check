@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2D08CF621F4F0C900085FB0F /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */; };
-		2D08CF641F4F0C9C0085FB0F /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF631F4F0C9C0085FB0F /* NetworkExtension.framework */; };
 		2D08CF671F4F0CBE0085FB0F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */; };
 		2D08CF6B1F4F0CD80085FB0F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */; };
 		2D08CF6D1F4F0CE60085FB0F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF6C1F4F0CE50085FB0F /* libxml2.tbd */; };
@@ -35,28 +34,28 @@
 		2DBB41C91F4D991900341BBB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBB41C81F4D991900341BBB /* main.m */; };
 		A3853DF41FEA47AC00B8907A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */; };
 		A3B75B3020287ADA006ADFA9 /* libSangforSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3853DF21FEA479900B8907A /* libSangforSdk.a */; };
-		A3B75B3120287AE0006ADFA9 /* PacketTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2D1422C31F9DDC4800A36ED9 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */; };
 		C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */; };
+		CC9FD3AC212AB25200BC2D64 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */; };
+		CC9FD3AD212AD6A600BC2D64 /* PacketTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2D1422C31F9DDC4800A36ED9 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A3B75B3220287AE0006ADFA9 /* Embed App Extensions */ = {
+		CC9FD3AE212AD6A600BC2D64 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A3B75B3120287AE0006ADFA9 /* PacketTunnel.appex in Embed App Extensions */,
+				CC9FD3AD212AD6A600BC2D64 /* PacketTunnel.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
-		2D08CF631F4F0C9C0085FB0F /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2D08CF681F4F0CCA0085FB0F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -106,6 +105,7 @@
 		A33CDC3B1FDEA69000DC6F0E /* errheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errheader.h; sourceTree = "<group>"; };
 		A3853DF21FEA479900B8907A /* libSangforSdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSangforSdk.a; sourceTree = "<group>"; };
 		A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,12 +115,12 @@
 			files = (
 				A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */,
 				2D08CF671F4F0CBE0085FB0F /* SystemConfiguration.framework in Frameworks */,
-				2D08CF641F4F0C9C0085FB0F /* NetworkExtension.framework in Frameworks */,
 				2D08CF711F4F0D6B0085FB0F /* AdSupport.framework in Frameworks */,
 				2D08CF621F4F0C900085FB0F /* libresolv.9.tbd in Frameworks */,
 				A3853DF41FEA47AC00B8907A /* libsqlite3.0.tbd in Frameworks */,
 				2D08CF6B1F4F0CD80085FB0F /* libc++.tbd in Frameworks */,
 				2D08CF6D1F4F0CE60085FB0F /* libxml2.tbd in Frameworks */,
+				CC9FD3AC212AB25200BC2D64 /* NetworkExtension.framework in Frameworks */,
 				2D08CF6F1F4F0D5D0085FB0F /* libicucore.tbd in Frameworks */,
 				C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */,
 				A3B75B3020287ADA006ADFA9 /* libSangforSdk.a in Frameworks */,
@@ -242,6 +242,7 @@
 		364A996A7BA4FFE935732C7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */,
 				A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */,
 				2D6479B51F557266009EED59 /* Security.framework */,
 				2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */,
@@ -251,7 +252,6 @@
 				2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */,
 				2D08CF681F4F0CCA0085FB0F /* MobileCoreServices.framework */,
 				2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */,
-				2D08CF631F4F0C9C0085FB0F /* NetworkExtension.framework */,
 				2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */,
 				6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */,
 			);
@@ -280,7 +280,7 @@
 				2DBB41B41F4D991800341BBB /* Resources */,
 				9E9E276E0756D4790599C743 /* [CP] Embed Pods Frameworks */,
 				EC211643D0A845BCC643910D /* [CP] Copy Pods Resources */,
-				A3B75B3220287AE0006ADFA9 /* Embed App Extensions */,
+				CC9FD3AE212AD6A600BC2D64 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -304,8 +304,14 @@
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;
+							};
+							com.apple.VPNLite = {
+								enabled = 0;
 							};
 						};
 					};
