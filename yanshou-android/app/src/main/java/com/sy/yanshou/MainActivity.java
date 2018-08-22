@@ -789,7 +789,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             if (mDialog != null && mDialog.isShowing()) {
                 return;
             }
-            doVPNLogin();
+            //doVPNLogin();
         }
     };
 
