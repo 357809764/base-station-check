@@ -47,6 +47,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.nd.ppt.pad.prometheus.R;
+
 public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener {
     //需要用到的权限列表，WRITE_EXTERNAL_STORAGE权限在android6.0设备上需要动态申请
     private static final String[] ALL_PERMISSIONS_NEED = {
@@ -54,7 +56,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
     private static final String TAG = "LoginActivity";
@@ -118,7 +121,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         initClickEvents();
         setLoginInfo();
 
-        NetMonitorServer.startServer(getApplicationContext());
+        //NetMonitorServer.startServer(getApplicationContext());
     }
 
     @Override
@@ -711,7 +714,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         viewSetting.setVisibility(View.GONE);
         if (!isFirstLoginSuccess) {
             isFirstLoginSuccess = true;
-            webView.reload();
+            webView.load();
         }
     }
 

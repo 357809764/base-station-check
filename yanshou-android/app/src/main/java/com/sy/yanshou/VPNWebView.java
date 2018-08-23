@@ -14,31 +14,33 @@ import android.widget.Toast;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.ssl.service.utils.logger.Log;
 
+import com.nd.ppt.pad.prometheus.R;
+
 public class VPNWebView extends WebView {
     private static final String TAG = "AuthSuccessActivity";
     private final int TEST_URL_TIMEOUT_MILLIS = 8 * 1000;// 测试vpn资源的超时时间
     private String url = "http://134.129.112.108:3694/?ys_ver=i1";//"http://120.36.56.152:3694/?ys_ver=i1";
+    private Context context;
 
     public VPNWebView(Context context) {
         super(context);
-        initView();
+        initView(context);
     }
 
     public VPNWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initView(context);
     }
 
     public VPNWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
+        initView(context);
     }
 
 
-    private void initView() {
+    private void initView(Context context) {
+        this.context = context;
         setWebViewSettings();  //设置webview配置参数
-
-        LoadPageByWebView(url);
     }
 
 
@@ -62,6 +64,10 @@ public class VPNWebView extends WebView {
         SangforAuthManager.getInstance().vpnLogout();
         Toast.makeText(getContext(), R.string.str_vpn_logout, Toast.LENGTH_SHORT).show();
         setVisibility(GONE);
+    }
+
+    public void load() {
+        LoadPageByWebView(url);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -107,7 +113,7 @@ public class VPNWebView extends WebView {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
-            return true;// 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+            return false;// 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
         }
 
         @Override
@@ -119,6 +125,7 @@ public class VPNWebView extends WebView {
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            //Toast.makeText(context, R.string.str_webview_load_error, Toast.LENGTH_SHORT).show();
             //清除缓存
             clearCache(true);
             clearHistory();
