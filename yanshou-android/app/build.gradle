@@ -10,7 +10,10 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
     }
 
     signingConfigs {
@@ -21,7 +24,6 @@ android {
             keyPassword 'android'
         }
 
-
         releaseKey {
             v2SigningEnabled false
             storeFile file("google_key.jks")
@@ -29,7 +31,6 @@ android {
             storePassword 'android'
             keyPassword 'android'
         }
-
     }
 
     buildTypes {
@@ -46,12 +47,14 @@ android {
         }
     }
 
+    productFlavors {
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-
 
 }
 
@@ -63,5 +66,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.google.android.gms:play-services:8.3.0'
 
 }

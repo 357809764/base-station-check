@@ -8,12 +8,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nd.ppt.pad.prometheus.R;
 import com.sangfor.bugreport.logger.Log;
 import com.sangfor.ssl.BaseMessage;
 import com.sangfor.ssl.ChallengeMessage;
@@ -44,15 +51,16 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.nd.ppt.pad.prometheus.R;
-
-public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener {
+public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener, VPNWebView.WebViewListenter {
     //需要用到的权限列表，WRITE_EXTERNAL_STORAGE权限在android6.0设备上需要动态申请
     private static final String[] ALL_PERMISSIONS_NEED = {
-            Manifest.permission.INTERNET, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -96,15 +104,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Bugly初始化
-        CrashReport.initCrashReport(this, "6bb59cb000", false);
-
-        EventBus.getDefault().register(this);
+        CrashReport.initCrashReport(this, "6bb59cb000", false);      //Bugly初始化
 
         initLoginParms();
+        initView();
+        setLoginInfo();
         //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
-        if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
+        /*if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
             isFirstLogin = true;
             try {
                 //开启登录进度框
@@ -115,19 +121,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                 cancelWaitingProgressDialog();
                 Log.info(TAG, "SFException:%s", e);
             }
-        }
-
-        initView();
-        initClickEvents();
-        setLoginInfo();
-
-        //NetMonitorServer.startServer(getApplicationContext());
+        }*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        webView.destroy();
     }
 
     /**
@@ -141,12 +141,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         mIPEditText = (EditText) findViewById(R.id.et_ip);
         mUserNameEditView = (EditText) findViewById(R.id.et_username);
         mUserPasswordEditView = (EditText) findViewById(R.id.et_password);
-    }
-
-    /**
-     * 注册监听事件
-     */
-    private void initClickEvents() {
+        webView.setListenter(this);
 
         //登录按钮监听
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
@@ -168,6 +163,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             @Override
             public void onRepeatClick() {
                 viewSetting.setVisibility(View.VISIBLE);
+            }
+        });
+
+        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -427,6 +429,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                  * 注意：当前Activity的launchMode不能设置为 singleInstance，否则L3VPN服务启动会失败。
                  */
                 mSFManager.onActivityResult(requestCode, resultCode);
+                break;
+            case VPNWebView.FILE_CAMERA_RESULT_CODE:
+            case VPNWebView.FILE_CHOOSER_RESULT_CODE:
+                webView.onActivityResult(requestCode, resultCode, data);
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -718,7 +724,6 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         }
     }
 
-
     /**
      * 关闭对话框
      */
@@ -765,18 +770,6 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     }
 
     /**
-     * 回调接口：权限授权成功处理动作
-     * SDK >= Android6.0需要实现该接口
-     */
-    @Override
-    protected void permissionGrantedSuccess() {
-        if (isFirstLogin) {
-            isFirstLogin = false;
-            doVPNLogin();
-        }
-    }
-
-    /**
      * 回调接口：权限授权失败处理动作
      * SDK >= Android6.0需要实现该接口
      */
@@ -796,8 +789,48 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         }
     };
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(NetChangeEvent event) {
-        android.util.Log.d(TAG, "NetChangeEvent:" + event.isWifi);
+
+    /**
+     * 回调接口：权限授权成功处理动作
+     * SDK >= Android6.0需要实现该接口
+     */
+    @Override
+    protected void permissionGrantedSuccess() {
+        autoLogin();
+    }
+
+    @Override
+    protected void permissionLowLevel() {
+        autoLogin();
+    }
+
+    private void autoLogin() {
+        if (isFirstLogin) {
+            isFirstLogin = false;
+            doVPNLogin();
+        }
+    }
+
+    @Override
+    public void takeCamera(String path, int code) {
+        Uri uri;
+        File file = new File(path);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            uri = FileProvider.getUriForFile(MainActivity.this, "com.fyl.fileprovider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, code);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -36,14 +36,20 @@ public abstract class BaseCheckPermissionActivity extends AppCompatActivity
     protected abstract String[] getNeedPermissions();
 
     /**
+     * 权限授权失败
+     */
+    protected abstract void permissionGrantedFail();
+
+    /**
      * 权限授权成功
      */
     protected abstract void permissionGrantedSuccess();
 
     /**
-     * 权限授权失败
+     * 低版本系统不需要动态获取权限
      */
-    protected abstract void permissionGrantedFail();
+    protected abstract void permissionLowLevel();
+
 
     @Override
     protected void onResume() {
@@ -58,7 +64,11 @@ public abstract class BaseCheckPermissionActivity extends AppCompatActivity
      * 检查所有权限，无权限则开始申请相关权限
      */
     protected void checkAllNeedPermissions() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            permissionLowLevel();
+            return;
+        }
+
         List<String> needRequestPermissonList = getDeniedPermissions(getNeedPermissions());
         if (null != needRequestPermissonList && needRequestPermissonList.size() > 0) {
 
