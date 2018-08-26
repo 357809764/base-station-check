@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">基站验收</string>
+    <string name="app_name">基站验收1</string>
 
     <string name="str_svpn_ip">IP</string>
     <string name="str_svpn_port">443</string>
@@ -43,4 +43,5 @@
     <string name="str_package_empty">"包名不能为空"</string>
     <string name="str_add_package_success">"添加白名单成功"</string>
     <string name="str_permission_not_all_pass">权限未全部授权，部分功能将受限！</string>
+    <string name="str_webview_load_error">加载失败！</string>
 </resources>

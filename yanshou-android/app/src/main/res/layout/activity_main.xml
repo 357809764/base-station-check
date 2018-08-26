@@ -10,7 +10,7 @@
         android:id="@+id/view_vnp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:background="@color/lightgray" />
 
     <LinearLayout
         android:id="@+id/view_setting"
@@ -141,6 +141,16 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/auth_button_login"
                 android:text="登 录"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/auth_button_login"
+                android:text="测 试"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 

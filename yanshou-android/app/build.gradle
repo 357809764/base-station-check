@@ -3,21 +3,51 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
+
     defaultConfig {
-        applicationId "com.sy.yanshou"
+        applicationId "com.nd.ppt.pad.prometheus"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
     }
 
+    signingConfigs {
+        debugKey {
+            storeFile file("debug.keystore")
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+
+        releaseKey {
+            v2SigningEnabled false
+            storeFile file("google_key.jks")
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseKey
         }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debugKey
+        }
+    }
+
+    productFlavors {
     }
 
     sourceSets {
@@ -25,7 +55,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
 
 }
 
@@ -37,5 +66,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.google.android.gms:play-services:8.3.0'
 
 }
