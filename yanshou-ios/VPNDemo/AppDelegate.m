@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "AuthViewController.h"
 #import "NetworkViewController.h"
+#import "VpnViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,12 +26,11 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.viewController = [[AuthViewController alloc] init];
+    self.viewController = [[VpnViewController alloc] initWithNibName:@"VpnViewController" bundle:nil];//[[AuthViewController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:_viewController];
     [self.navController setNavigationBarHidden:YES];
     self.window.rootViewController = _navController;
     [self.window makeKeyAndVisible];
-
     return YES;
 }
 

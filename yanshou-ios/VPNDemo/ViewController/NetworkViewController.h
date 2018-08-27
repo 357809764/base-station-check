@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MaskView.h"
 
 @interface NetworkViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource,UIWebViewDelegate>
 {
@@ -15,4 +16,7 @@
     __weak IBOutlet UIPickerView *mPickView;
     __weak IBOutlet UITextField *mUrlTf;
 }
+@property (weak, nonatomic) IBOutlet MaskView *maskView;
+
+- (void)load;
 @end
