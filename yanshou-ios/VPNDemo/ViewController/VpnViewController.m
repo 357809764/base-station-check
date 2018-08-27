@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "SmsAlertView.h"
 #import "errheader.h"
+#import <sys/utsname.h>
 
 #define kVpnIp      @"vpnIp"       //VPN地址
 #define kPort       @"vpnport"     //VPN端口号
@@ -82,10 +83,23 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transformView:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     
     // 初始化
     CGSize size = [UIScreen mainScreen].bounds.size;
-    [self.networkController.view setFrame:CGRectMake(0, 0, size.width, size.height)];
+    CGRect barRect = [[UIApplication sharedApplication] statusBarFrame];
+    if ([self iSiPhoneX]) {
+        CGRect rect = CGRectMake(0, barRect.size.height, size.width, size.height - barRect.size.height - 20);
+        [self.setView setFrame:rect];
+        [self.networkController.view setFrame:rect];
+    } else {
+        CGRect rect = CGRectMake(0, barRect.size.height, size.width, size.height - barRect.size.height);
+        [self.setView setFrame:rect];
+        [self.networkController.view setFrame:rect];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -557,6 +571,10 @@
     
     self.networkController.view.hidden = NO;
     [self.networkController load];
+    
+    // 定位
+    _manager = [CLLocationManager new];
+    [_manager requestWhenInUseAuthorization];
 }
 
 /**
@@ -623,6 +641,29 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
+}
+
+/**
+ 判断是否是iPhoneX   add by 苏华锦 2017-11-03
+ @see http://www.jianshu.com/p/b23016bb97af
+ @return return value description
+ */
+- (BOOL)iSiPhoneX {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    if ([deviceString isEqualToString:@"iPhone10,3"]) {
+        return YES; //国行(A1865)、日行(A1902)iPhone X
+    } else if ([deviceString isEqualToString:@"iPhone10,6"]) {
+        return YES; //美版(Global/A1901)iPhone X
+    } else if ([deviceString isEqualToString:@"i386"] || [deviceString isEqualToString:@"x86_64"]) { // 模拟器
+        CGFloat screenHeight = CGRectGetHeight([[UIScreen mainScreen] bounds]);
+        CGFloat screenWidth = CGRectGetWidth([[UIScreen mainScreen] bounds]);
+        if ((screenWidth == 375 && screenHeight == 812) || (screenWidth == 812 && screenHeight == 375)) { // 竖屏、横屏都要考虑
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end
