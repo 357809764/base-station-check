@@ -116,7 +116,7 @@ public class VPNWebView extends WebView {
     }
 
     public void load() {
-        String url = urlArray[1];
+        String url = urlArray[0];
         if (url == null || url.equals("")) {
             Log.info(TAG, "load url is wrong!");
             return;

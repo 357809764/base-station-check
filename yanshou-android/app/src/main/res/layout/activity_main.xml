@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/auth_button_login"
-                android:text="测 试"
+                android:text="GPS测 试"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 
