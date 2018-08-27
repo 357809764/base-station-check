@@ -152,7 +152,8 @@
                 android:background="@drawable/auth_button_login"
                 android:text="GPS测 试"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
