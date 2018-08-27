@@ -716,8 +716,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         viewSetting.setVisibility(View.GONE);
         if (!isFirstLoginSuccess) {
             isFirstLoginSuccess = true;
-            webView.load();
+            //webView.load();
         }
+        webView.reload();
     }
 
     /**
