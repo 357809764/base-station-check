@@ -76,9 +76,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private VPNMode mVpnMode = VPNMode.L3VPN;            //默认开启L3VPN模式
     //暂时只支持https协议，不提供端口号时，使用默认443端口
     private URL mVpnAddressURL = null;
-    private String mVpnAddress = "https://218.85.155.91:443";
-    private String mUserName = "fjzhengxy";
-    private String mUserPassword = "aqgz.#2000GXB";
+    private String mVpnAddress;// = "https://218.85.155.91:443";
+    private String mUserName;// = "fjzhengxy";
+    private String mUserPassword;// = "aqgz.#2000GXB";
     private boolean isClickedLogin;
 
     //主认证默认采用用户名+密码方式
@@ -230,7 +230,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             viewSetting.setVisibility(View.VISIBLE);
         }
 
-        mIPEditText.setText(mVpnAddress.trim());
+        if (!TextUtils.isEmpty(mVpnAddress)) {
+            mIPEditText.setText(mVpnAddress.trim());
+        }
         mUserNameEditView.setText(mUserName);
         mUserPasswordEditView.setText(mUserPassword);
     }
