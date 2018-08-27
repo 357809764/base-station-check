@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -44,15 +43,9 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
-import com.sy.yanshou.bean.NetChangeEvent;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -152,8 +145,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                 reLoginCount = 0;
                 handler.removeCallbacks(reLoginRunnable);
 
-                SangforAuthManager.getInstance().vpnLogout();
-
+                //SangforAuthManager.getInstance().vpnLogout();
                 doVPNLogin();
             }
         });
