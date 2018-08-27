@@ -99,6 +99,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private EditText mUserPasswordEditView = null;
     private ImageView mRandCodeView = null;
     private ProgressDialog mProgressDialog = null; // 对话框对象
+    private GPSUtils gpsUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +170,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (gpsUtils == null) {
+                    gpsUtils = new GPSUtils();
+                }
+                gpsUtils.init(MainActivity.this);
             }
         });
     }
