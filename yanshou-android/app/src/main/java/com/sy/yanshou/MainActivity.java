@@ -159,6 +159,15 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             }
         });
 
+        findViewById(R.id.btn_vpn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIPEditText.setText("https://218.85.155.91:443");
+                mUserNameEditView.setText("fjzhengxy");
+                mUserPasswordEditView.setText("aqgz.#2000GXB");
+            }
+        });
+
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

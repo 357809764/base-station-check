@@ -49,12 +49,13 @@ public class GPSUtils {
             //获取当前位置，这里只用到了经纬度
             String string = "纬度为：" + location.getLatitude() + ",经度为：" + location.getLongitude();
             Toast.makeText(context, string, Toast.LENGTH_LONG).show();
-        }
+        } else {
 
-        //绑定定位事件，监听位置是否改变
-        //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
-        //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
-        locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
+            //绑定定位事件，监听位置是否改变
+            //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
+            //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
+            locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
+        }
     }
 
 
