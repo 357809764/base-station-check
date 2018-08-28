@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface VpnViewController : UIViewController
 
@@ -19,4 +20,5 @@
 @property (strong, atomic) NSString *userName;
 @property (strong, atomic) NSString *password;
 
+@property (nonatomic, strong) CLLocationManager *manager;
 @end
