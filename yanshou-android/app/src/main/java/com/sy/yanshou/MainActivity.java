@@ -58,7 +58,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
     };
 
     private static final String TAG = "LoginActivity";
@@ -122,6 +123,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     protected void onDestroy() {
         super.onDestroy();
         webView.destroy();
+        doVPNLogout();
     }
 
     /**
@@ -824,7 +826,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         Uri uri;
         File file = new File(path);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= 24) {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
             uri = FileProvider.getUriForFile(MainActivity.this, "com.fyl.fileprovider", file);
         } else {
@@ -837,6 +839,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (webView.getVisibility() == View.VISIBLE) {
+                webView.goBack();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

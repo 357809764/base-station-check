@@ -1,17 +1,21 @@
 package com.sy.yanshou;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -30,6 +34,8 @@ import com.nd.ppt.pad.prometheus.R;
 import com.sangfor.bugreport.logger.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VPNWebView extends WebView {
     private static final String TAG = "AuthSuccessActivity";
@@ -63,7 +69,7 @@ public class VPNWebView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(Context context) {
         activity = (Activity) context;
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setWebViewClient(new MyWebViewClient());
         setWebChromeClient(new MyWebChromeClient());
         setLongClickable(true);
@@ -87,9 +93,23 @@ public class VPNWebView extends WebView {
         settings.setAllowFileAccess(true);// 设置可以访问文件
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//不支持放大缩小
         settings.setDisplayZoomControls(false);//不支持放大缩小
+        settings.setGeolocationDatabasePath( ((Activity)getContext()).getFilesDir().getPath());
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            // Marshmallow+ Permission APIs
+           // fuckMarshMallow();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (0 != (getContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
+                setWebContentsDebuggingEnabled(true);
+            }
+        }
+
 
         //--
-//        settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 不使用缓存，只从网络获取数据。
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); // 不使用缓存，只从网络获取数据。
 //        settings.setBuiltInZoomControls(true); // 设置出现缩放工具
 
         setDownloadListener(new DownloadListener() {
@@ -209,6 +229,20 @@ public class VPNWebView extends WebView {
     }
 
     private void openImageChooserActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getContext(), "没有权限,请手动开启相机权限", Toast.LENGTH_SHORT).show();
+            if (uploadMessageAboveL != null) {
+                uploadMessageAboveL.onReceiveValue(null);
+                uploadMessageAboveL = null;
+            }
+            if (uploadMessage != null) {
+                uploadMessage.onReceiveValue(null);
+                uploadMessage = null;
+            }
+            return;
+        }
+
         if (listenter != null) {
             listenter.takeCamera(cameraFilePath, FILE_CAMERA_RESULT_CODE);
         }
