@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -49,7 +50,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener, VPNWebView.WebViewListenter {
+public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener, VPNWebView.WebViewListener {
     //需要用到的权限列表，WRITE_EXTERNAL_STORAGE权限在android6.0设备上需要动态申请
     private static final String[] ALL_PERMISSIONS_NEED = {
             Manifest.permission.INTERNET,
@@ -93,7 +94,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private EditText mUserPasswordEditView = null;
     private ImageView mRandCodeView = null;
     private ProgressDialog mProgressDialog = null; // 对话框对象
-    private GPSUtils gpsUtils;
+    private GpsManager gpsUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         mIPEditText = (EditText) findViewById(R.id.et_ip);
         mUserNameEditView = (EditText) findViewById(R.id.et_username);
         mUserPasswordEditView = (EditText) findViewById(R.id.et_password);
-        webView.setListenter(this);
+        webView.setListener(this);
 
         //登录按钮监听
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
@@ -173,10 +174,23 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (gpsUtils == null) {
-                    gpsUtils = new GPSUtils();
+                Location location = GpsManager.getInstance().getLocation(MainActivity.this);
+                if (location != null) {
+                    String string = "纬度为：" + location.getLatitude() +",经度为：" + location.getLongitude();
+                    Toast.makeText(MainActivity.this, string, Toast.LENGTH_LONG).show();
                 }
-                gpsUtils.init(MainActivity.this);
+            }
+        });
+
+        findViewById(R.id.btn_ip_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText ipText = (EditText) findViewById(R.id.et_ip_test);
+                if (TextUtils.isEmpty(ipText.getText().toString())) {
+                    return;
+                }
+
+                webView.loadUrl(ipText.getText().toString());
             }
         });
     }
@@ -806,11 +820,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
      */
     @Override
     protected void permissionGrantedSuccess() {
+        GpsManager.getInstance().init(this);
         autoLogin();
     }
 
     @Override
     protected void permissionLowLevel() {
+        GpsManager.getInstance().init(this);
         autoLogin();
     }
 

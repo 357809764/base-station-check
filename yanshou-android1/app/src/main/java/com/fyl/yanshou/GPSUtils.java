@@ -1,4 +1,4 @@
-package com.sy.yanshou;
+package com.fyl.yanshou;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;

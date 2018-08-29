@@ -10,18 +10,17 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.GeolocationPermissions;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -33,9 +32,10 @@ import android.widget.Toast;
 import com.nd.ppt.pad.prometheus.R;
 import com.sangfor.bugreport.logger.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VPNWebView extends WebView {
     private static final String TAG = "AuthSuccessActivity";
@@ -76,6 +76,7 @@ public class VPNWebView extends WebView {
         setScrollbarFadingEnabled(true);
         setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         setDrawingCacheEnabled(true);
+        setVerticalScrollBarEnabled(false);
 
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true); // 网页中包含JavaScript内容需调用以下方法，参数为true
@@ -107,10 +108,8 @@ public class VPNWebView extends WebView {
             }
         }
 
-
-        //--
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); // 不使用缓存，只从网络获取数据。
-//        settings.setBuiltInZoomControls(true); // 设置出现缩放工具
+        settings.setBuiltInZoomControls(true); // 设置出现缩放工具
 
         setDownloadListener(new DownloadListener() {
             @Override
@@ -147,13 +146,14 @@ public class VPNWebView extends WebView {
         loadUrl(url);
     }
 
-    private WebViewListenter listenter;
+    private WebViewListener listener;
 
-    public void setListenter(WebViewListenter listenter) {
-        this.listenter = listenter;
+    public void setListener(WebViewListener listener) {
+        this.listener = listener;
     }
 
     private class MyWebViewClient extends WebViewClient {
+        private boolean isFirst = true;
 
         public MyWebViewClient() {
         }
@@ -179,9 +179,14 @@ public class VPNWebView extends WebView {
 
         }
 
+        @SuppressLint("AddJavascriptInterface")
         @Override
         public void onPageFinished(WebView view, String url) {
-            //Toast.makeText(context, R.string.str_webview_load_error, Toast.LENGTH_SHORT).show();
+            if (isFirst) {
+                isFirst = false;
+                addJavascriptInterface(new JSInterface(), "YanShouInterface");
+            }
+
             //清除缓存
             clearCache(true);
             clearHistory();
@@ -243,8 +248,8 @@ public class VPNWebView extends WebView {
             return;
         }
 
-        if (listenter != null) {
-            listenter.takeCamera(cameraFilePath, FILE_CAMERA_RESULT_CODE);
+        if (listener != null) {
+            listener.takeCamera(cameraFilePath, FILE_CAMERA_RESULT_CODE);
         }
     }
 
@@ -324,8 +329,27 @@ public class VPNWebView extends WebView {
         uploadMessageAboveL = null;
     }
 
-
-    public interface WebViewListenter {
+    public interface WebViewListener {
         void takeCamera(String path, int code);
+    }
+
+    private final class JSInterface{
+        /**
+         * 注意这里的@JavascriptInterface注解， target是4.2以上都需要添加这个注解，否则无法调用
+         */
+        @JavascriptInterface
+        public String getLocation( ){
+            JSONObject jsonObject = new JSONObject();
+            Location location = GpsManager.getInstance().getLocation(getContext());
+            if (location != null) {
+                try {
+                    jsonObject.put("latitude", location.getLatitude());
+                    jsonObject.put("longitude", location.getLongitude());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return jsonObject.toString();
+        }
     }
 }
