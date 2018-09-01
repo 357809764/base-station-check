@@ -21,8 +21,8 @@
     __weak IBOutlet UITextField *mUrlTf;
 }
 @property (strong, atomic) JSContext *jsContext;
-@property (strong, atomic) JSProtocolObj *jsProtocolObj;
 @property (weak, nonatomic) IBOutlet MaskView *maskView;
 @property (strong, atomic) CLLocationManager *locationManager;
+
 - (void)load;
 @end

@@ -57,9 +57,6 @@ static CLLocation *sLocation;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vpnStatusChange:) name:VPNStatusDidChangeNotification object:nil];
     
     [self startLocation];
-    
-    
-    self.jsProtocolObj = [JSProtocolObj new];
 }
 
 - (void)viewWillUnload
