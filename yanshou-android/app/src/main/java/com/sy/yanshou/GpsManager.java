@@ -25,6 +25,8 @@ public class GpsManager {
     private Context context;
     private Location location; //latitude, longitude;
 
+    public boolean enable;
+
     private GpsManager() {
 
     }
@@ -34,6 +36,10 @@ public class GpsManager {
     }
 
     public void init(Context context) {
+        if (!enable) {
+           return;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -75,6 +81,10 @@ public class GpsManager {
     }
 
     public Location getLocation(Context context) {
+        if (!enable) {
+            return null;
+        }
+
         init(context);
         return location;
     }

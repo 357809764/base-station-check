@@ -94,12 +94,12 @@ public class VPNWebView extends WebView {
         settings.setAllowFileAccess(true);// 设置可以访问文件
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//不支持放大缩小
         settings.setDisplayZoomControls(false);//不支持放大缩小
-        settings.setGeolocationDatabasePath( ((Activity)getContext()).getFilesDir().getPath());
+        settings.setGeolocationDatabasePath(((Activity) getContext()).getFilesDir().getPath());
 
 
         if (Build.VERSION.SDK_INT >= 23) {
             // Marshmallow+ Permission APIs
-           // fuckMarshMallow();
+            // fuckMarshMallow();
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -118,8 +118,6 @@ public class VPNWebView extends WebView {
                 activity.startActivity(localIntent);
             }
         });
-
-        load();
     }
 
 
@@ -135,7 +133,7 @@ public class VPNWebView extends WebView {
     }
 
     public void load() {
-        String url = urlArray[1];
+        String url = urlArray[0];
         if (url == null || url.equals("")) {
             Log.info(TAG, "load url is wrong!");
             return;
@@ -176,17 +174,12 @@ public class VPNWebView extends WebView {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             Log.info(TAG, "onPageStarted url = " + url);
+            addJavascriptInterface(jsInterface, "YanShouInterface");
 
         }
 
-        @SuppressLint("AddJavascriptInterface")
         @Override
         public void onPageFinished(WebView view, String url) {
-            if (isFirst) {
-                isFirst = false;
-                addJavascriptInterface(new JSInterface(), "YanShouInterface");
-            }
-
             //清除缓存
             clearCache(true);
             clearHistory();
@@ -333,12 +326,13 @@ public class VPNWebView extends WebView {
         void takeCamera(String path, int code);
     }
 
-    private final class JSInterface{
+    private JSInterface jsInterface = new JSInterface();
+    private final class JSInterface {
         /**
          * 注意这里的@JavascriptInterface注解， target是4.2以上都需要添加这个注解，否则无法调用
          */
         @JavascriptInterface
-        public String getLocation( ){
+        public String getLocation() {
             JSONObject jsonObject = new JSONObject();
             Location location = GpsManager.getInstance().getLocation(getContext());
             if (location != null) {

@@ -118,6 +118,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                 Log.info(TAG, "SFException:%s", e);
             }
         }*/
+
+        GpsManager.getInstance().enable = true;
     }
 
     @Override
@@ -176,7 +178,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             public void onClick(View v) {
                 Location location = GpsManager.getInstance().getLocation(MainActivity.this);
                 if (location != null) {
-                    String string = "纬度为：" + location.getLatitude() +",经度为：" + location.getLongitude();
+                    String string = "纬度为：" + location.getLatitude() + ",经度为：" + location.getLongitude();
                     Toast.makeText(MainActivity.this, string, Toast.LENGTH_LONG).show();
                 }
             }
@@ -743,9 +745,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         viewSetting.setVisibility(View.GONE);
         if (!isFirstLoginSuccess) {
             isFirstLoginSuccess = true;
-            //webView.load();
+            webView.load();
+        } else {
+            webView.reload();
         }
-        webView.reload();
     }
 
     /**
@@ -856,7 +859,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (webView.getVisibility() == View.VISIBLE) {
-                webView.goBack();
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                }
             }
             return true;
         }

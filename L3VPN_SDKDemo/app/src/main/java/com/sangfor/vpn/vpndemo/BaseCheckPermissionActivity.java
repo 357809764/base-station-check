@@ -21,7 +21,8 @@ import java.util.List;
  * 1.需要运行时权限的activity继承此类
  * 2.覆写三个回调方法
  */
-public abstract class BaseCheckPermissionActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public abstract class BaseCheckPermissionActivity extends AppCompatActivity
+        implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int REQUEST_CODE_PERMISSON = 88; //权限请求码
 
@@ -75,7 +76,7 @@ public abstract class BaseCheckPermissionActivity extends AppCompatActivity impl
             if (ContextCompat.checkSelfPermission(this, permission) !=
                     PackageManager.PERMISSION_GRANTED) {
 
-                needRequestPermissonList.add(permission);
+                    needRequestPermissonList.add(permission);
 
             }
 
