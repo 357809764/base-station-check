@@ -55,7 +55,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://218.85.155.91:443" allowsEditingTextAttributes="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BP5-PL-fBw">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" placeholder="请输入ip地址" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BP5-PL-fBw">
                                     <rect key="frame" x="45" y="8" width="310" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="7rY-tI-3HJ"/>
@@ -98,7 +98,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="fjzhengxy" allowsEditingTextAttributes="YES" placeholder="请输入账号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gc5-oY-UT2">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" placeholder="请输入账号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gc5-oY-UT2">
                                     <rect key="frame" x="45" y="8" width="310" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="Jgt-vT-Ctx"/>
@@ -141,7 +141,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aqgz.#2000GXB" allowsEditingTextAttributes="YES" placeholder="请输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jh0-ZL-oa7">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" placeholder="请输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jh0-ZL-oa7">
                                     <rect key="frame" x="45" y="8" width="310" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="5ph-ER-bvv"/>
@@ -192,10 +192,33 @@
                                 <action selector="onLoginBtnPressed:" destination="-1" eventType="touchUpInside" id="LHN-zH-K4a"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrf-Ar-6XV">
+                            <rect key="frame" x="10" y="281" width="355" height="40"/>
+                            <color key="backgroundColor" red="0.0078431372550000003" green="0.60392156860000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="PxH-HV-r6U"/>
+                            </constraints>
+                            <state key="normal" title="导入配置">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" red="0.69411764710000001" green="0.62745098040000002" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onSettingClicked:" destination="-1" eventType="touchUpInside" id="mc8-1d-EQL"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="Vrf-Ar-6XV" firstAttribute="top" secondItem="uH1-Fq-pqy" secondAttribute="bottom" constant="18" id="3ce-lX-VhT"/>
                         <constraint firstAttribute="trailing" secondItem="uH1-Fq-pqy" secondAttribute="trailing" constant="10" id="3nU-hx-7fV"/>
+                        <constraint firstItem="Vrf-Ar-6XV" firstAttribute="leading" secondItem="uH1-Fq-pqy" secondAttribute="leading" id="40U-u8-ZJh"/>
                         <constraint firstItem="uH1-Fq-pqy" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" constant="10" id="8XH-xw-o3w"/>
                         <constraint firstItem="xov-U7-yMi" firstAttribute="top" secondItem="XkP-4q-n9Q" secondAttribute="bottom" constant="8" symbolic="YES" id="9rE-ZR-uWZ"/>
                         <constraint firstItem="940-So-6GS" firstAttribute="top" secondItem="xov-U7-yMi" secondAttribute="bottom" id="B5a-ep-M5L"/>
@@ -212,6 +235,7 @@
                         <constraint firstAttribute="trailing" secondItem="xov-U7-yMi" secondAttribute="trailing" constant="10" id="vAV-2G-A41"/>
                         <constraint firstAttribute="trailing" secondItem="XkP-4q-n9Q" secondAttribute="trailing" id="wRd-pp-8xs"/>
                         <constraint firstItem="Xhg-E5-BW4" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" constant="10" id="wgH-PH-CWu"/>
+                        <constraint firstItem="Vrf-Ar-6XV" firstAttribute="trailing" secondItem="uH1-Fq-pqy" secondAttribute="trailing" id="yFU-db-jvI"/>
                         <constraint firstItem="Xhg-E5-BW4" firstAttribute="top" secondItem="940-So-6GS" secondAttribute="bottom" id="yW8-9B-cAZ"/>
                     </constraints>
                 </view>

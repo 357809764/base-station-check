@@ -13,8 +13,9 @@
 #import <CoreImage/CoreImage.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
-@interface NetworkViewController ()<UIWebViewDelegate>
+static CLLocation *sLocation;
 
+@interface NetworkViewController ()<UIWebViewDelegate>
 
 @end
 
@@ -54,6 +55,11 @@
     //注册两个通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloginFailed:) name:VPNReloginFailedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vpnStatusChange:) name:VPNStatusDidChangeNotification object:nil];
+    
+    [self startLocation];
+    
+    
+    self.jsProtocolObj = [JSProtocolObj new];
 }
 
 - (void)viewWillUnload
@@ -62,8 +68,9 @@
 }
 
 - (void)load {
-    [self doLoad:@"http://120.36.56.152:3694/?ys_ver=i1"];
-    //    [self doLoad:@"http://134.129.112.108:3694/?ys_ver=i1"];
+    //    NSString *url = @"http://120.36.56.152:3694/?ys_ver=i1";
+    NSString *url = @"http://134.129.112.108:3694/?ys_ver=i1";
+    [mWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
 /**
@@ -108,8 +115,6 @@
 
 - (IBAction)requestAction:(id)sender {    
     NSString *urlStr = [mUrlTf text];
-    [self doLoad:urlStr];
-#if 0
     if (!urlStr || urlStr.length == 0) {
         return;
     }
@@ -129,23 +134,7 @@
         [mgr performSelectorInBackground:selector withObject:nil];
 #pragma clang diagnostic pop
     }
-#endif
 }
-
-
-- (void)doLoad:(NSString *)urlStr
-{
-    if (!urlStr || urlStr.length == 0) {
-        return;
-    }
-    
-    SFNetworkingManager *mgr = [SFNetworkingManager sharedInstance];
-    [mgr setUrlString:urlStr];
-    
-    SEL selector = NSSelectorFromString(@"doWebviewLoad");
-    [mgr performSelectorInBackground:selector withObject:nil];
-}
-
 #pragma mark -
 #pragma mark UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -232,7 +221,67 @@
 #pragma mark UIWebViewDelegate
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (error != nil) {
-        NSLog(@"加载失败");
+        NSLog(@"加载失败 %@", error);
     }
 }
+
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//
+//}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    _jsContext = [mWebView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    _jsContext[@"YanShouInterface"][@"getLocation"] =  ^(){
+        if (sLocation == nil) {
+            return @"{}";
+        }
+        CLLocationCoordinate2D coordinate = sLocation.coordinate;
+        NSLog(@"纬度:%f 经度:%f", coordinate.latitude, coordinate.longitude);
+        return [NSString stringWithFormat:@"{\"latitude\":%f,\"longitude\":%f}", coordinate.latitude, coordinate.longitude];
+    };
+}
+
+#pragma mark -
+#pragma mark GPS
+- (void)startLocation
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    /** 由于IOS8中定位的授权机制改变 需要进行手动授权
+     * 获取授权认证，两个方法：
+     * [self.locationManager requestWhenInUseAuthorization];
+     * [self.locationManager requestAlwaysAuthorization];
+     */
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        //[self.locationManager requestWhenInUseAuthorization];
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    
+    //开始定位，不断调用其代理方法
+    [self.locationManager startUpdatingLocation];
+    NSLog(@"start gps");
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    // 1.获取用户位置的对象
+    sLocation = [locations lastObject];
+    CLLocationCoordinate2D coordinate = sLocation.coordinate;
+    
+    // 2.停止定位
+    //[manager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    if (error.code == kCLErrorDenied) {
+        // 提示用户出错原因，可按住Option键点击 KCLErrorDenied的查看更多出错信息，可打印error.code值查找原因所在
+    }
+}
+
+- (IBAction)btnLinkClicked:(id)sender {
+    NSString *url = @"http://120.36.56.152:3694/?ys_ver=i1";
+    [mWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+}
+
 @end

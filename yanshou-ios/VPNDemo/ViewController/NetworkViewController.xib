@@ -14,7 +14,7 @@
                 <outlet property="mLogView" destination="xii-sy-psi" id="hQb-wa-nhr"/>
                 <outlet property="mPickView" destination="s0Z-mZ-i4u" id="AfF-aX-WJy"/>
                 <outlet property="mUrlTf" destination="DYX-pa-T3p" id="EiX-ZO-Vzp"/>
-                <outlet property="mWebView" destination="OvM-ab-oZI" id="NMu-5T-uIr"/>
+                <outlet property="mWebView" destination="OvM-ab-oZI" id="hJc-dQ-K0F"/>
                 <outlet property="maskView" destination="671-tl-Bih" id="Eof-6z-CCc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -84,6 +84,18 @@
                         <constraint firstAttribute="height" constant="60" id="z5s-su-rta"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trw-pg-lDx">
+                    <rect key="frame" x="0.0" y="0.0" width="61" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="外网ip">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="titleShadowColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="btnLinkClicked:" destination="-1" eventType="touchUpInside" id="fZ0-0e-KQo"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>

@@ -194,6 +194,14 @@
     [_sdkManager enableByPassMode];
 }
 
+- (IBAction)onSettingClicked:(id)sender {
+    [_ipTextField setText:@"https://218.85.155.91:443"];
+    [_userTextField setText:@"fjzhengxy"];
+    [_pswTextField setText:@"aqgz.#2000GXB"];
+}
+- (IBAction)onGpsClicked:(id)sender {
+}
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
@@ -564,17 +572,13 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self saveUserConf];
     
-    //    if (!_networkController) {
-    //        self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];
-    //    }
-    //    [self.navigationController pushViewController:_networkController animated:YES];
+//    if (!_networkController) {
+//        self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];
+//    }
+//    [self.navigationController pushViewController:_networkController animated:YES];
     
     self.networkController.view.hidden = NO;
     [self.networkController load];
-    
-    // 定位
-    _manager = [CLLocationManager new];
-    [_manager requestWhenInUseAuthorization];
 }
 
 /**
@@ -640,8 +644,6 @@
     [alert show];
 }
 
-- (IBAction)onLoginClicked:(id)sender {
-}
 
 /**
  判断是否是iPhoneX   add by 苏华锦 2017-11-03
