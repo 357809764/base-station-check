@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -192,8 +192,29 @@
                                 <action selector="onLoginBtnPressed:" destination="-1" eventType="touchUpInside" id="LHN-zH-K4a"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UhA-oE-u6u">
+                            <rect key="frame" x="10" y="283" width="355" height="40"/>
+                            <color key="backgroundColor" red="0.0078431372550000003" green="0.60392156860000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="WJx-m6-CtA"/>
+                            </constraints>
+                            <state key="normal" title="隐 藏">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" red="0.69411764710000001" green="0.62745098040000002" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onHideSetClicked:" destination="-1" eventType="touchUpInside" id="yAc-8Y-4Qr"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrf-Ar-6XV">
-                            <rect key="frame" x="10" y="281" width="355" height="40"/>
+                            <rect key="frame" x="10" y="343" width="355" height="40"/>
                             <color key="backgroundColor" red="0.0078431372550000003" green="0.60392156860000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="PxH-HV-r6U"/>
@@ -216,14 +237,16 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="Vrf-Ar-6XV" firstAttribute="top" secondItem="uH1-Fq-pqy" secondAttribute="bottom" constant="18" id="3ce-lX-VhT"/>
                         <constraint firstAttribute="trailing" secondItem="uH1-Fq-pqy" secondAttribute="trailing" constant="10" id="3nU-hx-7fV"/>
                         <constraint firstItem="Vrf-Ar-6XV" firstAttribute="leading" secondItem="uH1-Fq-pqy" secondAttribute="leading" id="40U-u8-ZJh"/>
+                        <constraint firstItem="Vrf-Ar-6XV" firstAttribute="top" secondItem="UhA-oE-u6u" secondAttribute="bottom" constant="20" id="5XI-sY-S5R"/>
                         <constraint firstItem="uH1-Fq-pqy" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" constant="10" id="8XH-xw-o3w"/>
                         <constraint firstItem="xov-U7-yMi" firstAttribute="top" secondItem="XkP-4q-n9Q" secondAttribute="bottom" constant="8" symbolic="YES" id="9rE-ZR-uWZ"/>
                         <constraint firstItem="940-So-6GS" firstAttribute="top" secondItem="xov-U7-yMi" secondAttribute="bottom" id="B5a-ep-M5L"/>
                         <constraint firstItem="jzU-bs-Bjb" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" id="BlJ-VA-N0A"/>
                         <constraint firstItem="940-So-6GS" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" constant="10" id="Gpx-ha-EyT"/>
+                        <constraint firstItem="UhA-oE-u6u" firstAttribute="trailing" secondItem="uH1-Fq-pqy" secondAttribute="trailing" id="HQd-fX-ssF"/>
+                        <constraint firstItem="UhA-oE-u6u" firstAttribute="leading" secondItem="uH1-Fq-pqy" secondAttribute="leading" id="HwP-Hv-jCZ"/>
                         <constraint firstAttribute="trailing" secondItem="jzU-bs-Bjb" secondAttribute="trailing" id="KGQ-7R-tgb"/>
                         <constraint firstItem="XkP-4q-n9Q" firstAttribute="top" secondItem="gHe-a1-4xo" secondAttribute="top" id="TOK-wo-4CS"/>
                         <constraint firstItem="XkP-4q-n9Q" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" id="UOi-1r-vR9"/>
@@ -237,6 +260,7 @@
                         <constraint firstItem="Xhg-E5-BW4" firstAttribute="leading" secondItem="gHe-a1-4xo" secondAttribute="leading" constant="10" id="wgH-PH-CWu"/>
                         <constraint firstItem="Vrf-Ar-6XV" firstAttribute="trailing" secondItem="uH1-Fq-pqy" secondAttribute="trailing" id="yFU-db-jvI"/>
                         <constraint firstItem="Xhg-E5-BW4" firstAttribute="top" secondItem="940-So-6GS" secondAttribute="bottom" id="yW8-9B-cAZ"/>
+                        <constraint firstItem="UhA-oE-u6u" firstAttribute="top" secondItem="uH1-Fq-pqy" secondAttribute="bottom" constant="20" id="yfZ-dI-jAI"/>
                     </constraints>
                 </view>
             </subviews>

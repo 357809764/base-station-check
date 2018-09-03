@@ -18,4 +18,6 @@
 @property (strong, atomic) NSString *vpnIp;
 @property (strong, atomic) NSString *userName;
 @property (strong, atomic) NSString *password;
+
+@property (assign, atomic) BOOL isFirst;
 @end

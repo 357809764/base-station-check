@@ -56,6 +56,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    self.isFirst = YES;
+    
     //初始化Sdk信息
     [self initSangforSdk];
     
@@ -200,6 +202,16 @@
     [_pswTextField setText:@"aqgz.#2000GXB"];
 }
 - (IBAction)onGpsClicked:(id)sender {
+}
+
+- (IBAction)onHideSetClicked:(id)sender {
+    self.networkController.view.hidden = NO;
+    if (self.isFirst) {
+        [self.networkController load];
+        self.isFirst = NO;
+    } else {
+        [self.networkController reload];
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -579,7 +591,12 @@
 //    [self.navigationController pushViewController:_networkController animated:YES];
     
     self.networkController.view.hidden = NO;
-    [self.networkController load];
+    if (self.isFirst) {
+        [self.networkController load];
+        self.isFirst = NO;
+    } else {
+        [self.networkController reload];
+    }
 }
 
 /**

@@ -70,6 +70,10 @@ static CLLocation *sLocation;
     [mWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
+- (void)reload {
+    [mWebView reload];
+}
+
 /**
  *  收起键盘
  *

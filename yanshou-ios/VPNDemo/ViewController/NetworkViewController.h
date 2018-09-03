@@ -25,4 +25,6 @@
 @property (strong, atomic) CLLocationManager *locationManager;
 
 - (void)load;
+- (void)reload;
+
 @end
