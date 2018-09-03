@@ -164,6 +164,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             }
         });
 
+        findViewById(R.id.btn_hide_set).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewSetting.setVisibility(View.GONE);
+            }
+        });
+
         findViewById(R.id.btn_vpn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

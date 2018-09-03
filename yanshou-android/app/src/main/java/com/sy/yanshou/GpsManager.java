@@ -7,10 +7,12 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
@@ -37,7 +39,7 @@ public class GpsManager {
 
     public void init(Context context) {
         if (!enable) {
-           return;
+            return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -49,61 +51,89 @@ public class GpsManager {
         }
 
         //获取定位服务
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         //获取当前可用的位置控制器
         List<String> list = locationManager.getProviders(true);
-        if (list.contains(LocationManager.GPS_PROVIDER)) {
-            //是否为GPS位置控制器
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
-            //是否为网络位置控制器
-            provider = LocationManager.NETWORK_PROVIDER;
-        } else {
+        do {
+            if (list.contains(LocationManager.GPS_PROVIDER)) {
+                provider = LocationManager.GPS_PROVIDER;
+                this.location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    break;
+                }
+            }
+
+            if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+                provider = LocationManager.NETWORK_PROVIDER;
+                this.location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    break;
+                }
+            }
+
+            if (list.contains(LocationManager.PASSIVE_PROVIDER)) {
+                provider = LocationManager.PASSIVE_PROVIDER;
+                this.location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    break;
+                }
+            }
+        } while (false);
+
+        if (TextUtils.isEmpty(provider)) {
             Toast.makeText(context, "请检查网络或GPS是否打开", Toast.LENGTH_LONG).show();
             return;
-        }
-
-        this.locationManager = locationManager;
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location == null) {
-            provider = LocationManager.NETWORK_PROVIDER;
-            location = locationManager.getLastKnownLocation(provider);
-        }
-        if (location != null) {
-            this.location = new Location(location);
         }
 
         //绑定定位事件，监听位置是否改变
         //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
         //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
-        locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 2, locationListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Location getLocation(Context context) {
         if (!enable) {
             return null;
         }
-
-        init(context);
+        if (location == null) {
+            init(context);
+        }
         return location;
     }
 
     LocationListener locationListener = new LocationListener() {
 
         @Override
-        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            switch (status) {
+                //GPS状态为可见时
+                case LocationProvider.AVAILABLE:
+                    Log.i("Gps", "当前GPS状态为可见状态");
+                    break;
+                //GPS状态为服务区外时
+                case LocationProvider.OUT_OF_SERVICE:
+                    Log.i("Gps", "当前GPS状态为服务区外状态");
+                    break;
+                //GPS状态为暂停服务时
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    Log.i("Gps", "当前GPS状态为暂停服务状态");
+                    break;
+            }
         }
 
         @Override
         public void onProviderEnabled(String arg0) {
-
+            Log.i("Gps", "onProviderEnabled");
         }
 
         @Override
         public void onProviderDisabled(String arg0) {
-
+            Log.i("Gps", "onProviderDisabled");
         }
 
         @Override

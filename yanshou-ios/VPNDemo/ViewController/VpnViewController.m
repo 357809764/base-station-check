@@ -521,7 +521,8 @@
         [self showTicketAlertView:@"认证失败" message:error.domain];
         
     } else {
-        [self showAlertView:@"认证失败" message:[NSString stringWithFormat:@"%@,code=%ld",error.domain,(long)error.code]];
+        [self showAlertView:@"认证失败" message:[NSString stringWithFormat:@"%@",error.domain]];
+        //[self showAlertView:@"认证失败" message:[NSString stringWithFormat:@"%@,code=%ld",error.domain,(long)error.code]];
     }
 }
 
