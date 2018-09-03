@@ -446,26 +446,29 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        switch (requestCode) {
-            case CERTFILE_REQUESTCODE:
-                //获取证书选择器结果
-                //mCertPathEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
-                break;
-            case DIALOG_CERTFILE_REQUESTCODE:
-                //当证书认证是辅助认证时获取证书选择器结果
-                //mCertPathDialogEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
-                break;
-            case IVpnDelegate.REQUEST_L3VPNSERVICE:
-                /* L3VPN模式下下必须回调此方法
-                 * 注意：当前Activity的launchMode不能设置为 singleInstance，否则L3VPN服务启动会失败。
-                 */
-                mSFManager.onActivityResult(requestCode, resultCode);
-                break;
-            case VPNWebView.FILE_CAMERA_RESULT_CODE:
-            case VPNWebView.FILE_CHOOSER_RESULT_CODE:
-                webView.onActivityResult(requestCode, resultCode, data);
-                break;
+        try {
+            switch (requestCode) {
+                case CERTFILE_REQUESTCODE:
+                    //获取证书选择器结果
+                    //mCertPathEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
+                    break;
+                case DIALOG_CERTFILE_REQUESTCODE:
+                    //当证书认证是辅助认证时获取证书选择器结果
+                    //mCertPathDialogEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
+                    break;
+                case IVpnDelegate.REQUEST_L3VPNSERVICE:
+                    /* L3VPN模式下下必须回调此方法
+                     * 注意：当前Activity的launchMode不能设置为 singleInstance，否则L3VPN服务启动会失败。
+                     */
+                    mSFManager.onActivityResult(requestCode, resultCode);
+                    break;
+                case VPNWebView.FILE_CAMERA_RESULT_CODE:
+                case VPNWebView.FILE_CHOOSER_RESULT_CODE:
+                    webView.onActivityResult(requestCode, resultCode, data);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
