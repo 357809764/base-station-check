@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.nd.ppt.pad.prometheus"
+        applicationId "com.sy.yanshou"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -16,34 +16,16 @@ android {
         }
     }
 
-    signingConfigs {
-        debugKey {
-            storeFile file("debug.keystore")
-            keyAlias 'androiddebugkey'
-            storePassword 'android'
-            keyPassword 'android'
-        }
-
-        releaseKey {
-            v2SigningEnabled false
-            storeFile file("google_key.jks")
-            keyAlias 'androiddebugkey'
-            storePassword 'android'
-            keyPassword 'android'
-        }
-    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseKey
         }
 
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debugKey
         }
     }
 

@@ -28,7 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nd.ppt.pad.prometheus.R;
+import com.sy.yanshou.R;
 import com.sangfor.bugreport.logger.Log;
 import com.sangfor.ssl.BaseMessage;
 import com.sangfor.ssl.ChallengeMessage;

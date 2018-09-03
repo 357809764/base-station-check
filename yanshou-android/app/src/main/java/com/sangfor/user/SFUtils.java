@@ -1,7 +1,7 @@
 package com.sangfor.user;
 
-import com.nd.ppt.pad.prometheus.R;
 import com.sangfor.ssl.IConstants;
+import com.sy.yanshou.R;
 
 
 public class SFUtils implements IConstants {

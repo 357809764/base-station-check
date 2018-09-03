@@ -29,7 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.nd.ppt.pad.prometheus.R;
+import com.sy.yanshou.R;
 import com.sangfor.bugreport.logger.Log;
 
 import org.json.JSONException;
