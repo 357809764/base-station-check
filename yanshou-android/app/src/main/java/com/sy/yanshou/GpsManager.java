@@ -42,6 +42,14 @@ public class GpsManager {
             return;
         }
 
+        try {
+            initGps(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initGps(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
