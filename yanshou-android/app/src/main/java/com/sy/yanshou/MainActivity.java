@@ -348,7 +348,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                     Toast.makeText(MainActivity.this, R.string.str_auth_type_error, Toast.LENGTH_SHORT).show();
                     break;
             }
-        } catch (SFException e) {
+        } catch (Exception e) {
             //关闭登录进度框
             cancelWaitingProgressDialog();
             Log.info(TAG, "SFException:%s", e);
