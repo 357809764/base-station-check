@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
@@ -28,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sy.yanshou.R;
 import com.sangfor.bugreport.logger.Log;
 import com.sangfor.ssl.BaseMessage;
 import com.sangfor.ssl.ChallengeMessage;
@@ -94,7 +94,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private EditText mUserPasswordEditView = null;
     private ImageView mRandCodeView = null;
     private ProgressDialog mProgressDialog = null; // 对话框对象
-    private GpsManager gpsUtils;
+    private long preBackTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +135,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private void initView() {
 
         webView = (VPNWebView) findViewById(R.id.view_vnp);
+        webView.tvNetError = (TextView) findViewById(R.id.tv_net_error);
         viewSetting = findViewById(R.id.view_setting);
 
         mIPEditText = (EditText) findViewById(R.id.et_ip);
@@ -757,7 +758,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             isFirstLoginSuccess = true;
             webView.load();
         } else {
-            webView.reload();
+            //webView.reload();
+            webView.load();
         }
     }
 
@@ -867,12 +869,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webView.getVisibility() == View.VISIBLE) {
-                if (webView.canGoBack()) {
-                    webView.goBack();
-                }
-            }
+        long curClickTime = SystemClock.uptimeMillis();
+        if (curClickTime - preBackTime > 2000) {
+            preBackTime = curClickTime;
+            Toast.makeText(MainActivity.this, "再按一次退出" + getString(R.string.app_name), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onKeyDown(keyCode, event);

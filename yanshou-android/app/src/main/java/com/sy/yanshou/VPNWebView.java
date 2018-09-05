@@ -16,6 +16,10 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -27,9 +31,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sy.yanshou.R;
 import com.sangfor.bugreport.logger.Log;
 
 import org.json.JSONException;
@@ -45,6 +49,7 @@ public class VPNWebView extends WebView {
     private ValueCallback<Uri> uploadMessage;  //5.0以下使用
     private ValueCallback<Uri[]> uploadMessageAboveL;   // 5.0及以上使用
     private Activity activity;
+    public TextView tvNetError;
     private String cameraFilePath = Environment.getExternalStorageDirectory() + "/upload.jpg";//拍照图片路径
     private String[] urlArray = new String[]{
             "http://134.129.112.108:3694/?ys_ver=i1",
@@ -69,6 +74,7 @@ public class VPNWebView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(Context context) {
         activity = (Activity) context;
+
         //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setWebViewClient(new MyWebViewClient());
         setWebChromeClient(new MyWebChromeClient());
@@ -133,6 +139,9 @@ public class VPNWebView extends WebView {
     }
 
     public void load() {
+        if (tvNetError != null) {
+            tvNetError.setVisibility(GONE);
+        }
         String url = urlArray[0];
         if (url == null || url.equals("")) {
             Log.info(TAG, "load url is wrong!");
@@ -166,7 +175,20 @@ public class VPNWebView extends WebView {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
+            loadUrl("about:blank");
             Toast.makeText(getContext(), R.string.str_webview_load_error, Toast.LENGTH_SHORT).show();
+
+            SpannableString spannable1 = new SpannableString("\n网页无法打开\n\n");
+            spannable1.setSpan(new AbsoluteSizeSpan(22, true), 0, spannable1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableString spannable2 = new SpannableString(description);
+            spannable2.setSpan(new AbsoluteSizeSpan(16, true), 0, spannable2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+            builder.append(spannable1);
+            builder.append(spannable2);
+            if (tvNetError != null) {
+                tvNetError.setText(builder);
+                tvNetError.setVisibility(VISIBLE);
+            }
         }
 
 
