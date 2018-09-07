@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.sy.yanshou"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -44,4 +44,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    //compile 'com.handmark.pulltorefresh.library:pulltorefresh:1.0'
+    compile 'com.github.userswlwork:pull-to-refresh:1.0.0'
 }

@@ -44,13 +44,18 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
+import com.sy.yanshou.bean.NetChangeEvent;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener, VPNWebView.WebViewListener {
+public class MainActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener, RefreshWebView.WebViewListener {
     //需要用到的权限列表，WRITE_EXTERNAL_STORAGE权限在android6.0设备上需要动态申请
     private static final String[] ALL_PERMISSIONS_NEED = {
             Manifest.permission.INTERNET,
@@ -68,7 +73,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private static final int DIALOG_CERTFILE_REQUESTCODE = 34; //对话框中选择器的请求码
     private static final int DEFAULT_SMS_COUNTDOWN = 30;       //短信验证码默认倒计时时间
 
-    private VPNWebView webView;
+    private RefreshWebView refreshWebView;
+    //private VPNWebView webView;
     private boolean isFirstLoginSuccess;
     private View viewSetting;
     private boolean isFirstLogin = true;
@@ -89,9 +95,10 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
 
     // View
     private AlertDialog mDialog = null;
-    private EditText mIPEditText = null;
+    private EditText mVPNEditText = null;
     private EditText mUserNameEditView = null;
     private EditText mUserPasswordEditView = null;
+    private EditText mWebViewIpEditText;
     private ImageView mRandCodeView = null;
     private ProgressDialog mProgressDialog = null; // 对话框对象
     private long preBackTime = 0;
@@ -101,10 +108,11 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         CrashReport.initCrashReport(this, "6bb59cb000", false);      //Bugly初始化
+        EventBus.getDefault().register(this);
 
         initLoginParms();
         initView();
-        setLoginInfo();
+        getLoginInfo();
         //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
         /*if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
             isFirstLogin = true;
@@ -120,28 +128,32 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         }*/
 
         GpsManager.getInstance().enable = true;
+        GpsManager.getInstance().init(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        webView.destroy();
+        //webView.destroy();
         doVPNLogout();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
      * 初始化界面元素
      */
     private void initView() {
+        refreshWebView = (RefreshWebView) findViewById(R.id.refresh_webview);
 
-        webView = (VPNWebView) findViewById(R.id.view_vnp);
-        webView.tvNetError = (TextView) findViewById(R.id.tv_net_error);
+        //webView = (VPNWebView) refreshWebView.getRefreshableView();//VPNWebView) findViewById(R.id.view_vnp);
+        //webView.tvNetError = (TextView) findViewById(R.id.tv_net_error);
         viewSetting = findViewById(R.id.view_setting);
 
-        mIPEditText = (EditText) findViewById(R.id.et_ip);
+        mVPNEditText = (EditText) findViewById(R.id.et_ip);
         mUserNameEditView = (EditText) findViewById(R.id.et_username);
         mUserPasswordEditView = (EditText) findViewById(R.id.et_password);
-        webView.setListener(this);
+        mWebViewIpEditText = (EditText) findViewById(R.id.et_net_ip);
+        refreshWebView.setListener(this);
 
         //登录按钮监听
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
@@ -175,7 +187,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         findViewById(R.id.btn_vpn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIPEditText.setText("https://218.85.155.91:443");
+                mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");
+                mVPNEditText.setText("https://218.85.155.91:443");
                 mUserNameEditView.setText("fjzhengxy");
                 mUserPasswordEditView.setText("aqgz.#2000GXB");
             }
@@ -192,17 +205,6 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             }
         });
 
-        findViewById(R.id.btn_ip_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText ipText = (EditText) findViewById(R.id.et_ip_test);
-                if (TextUtils.isEmpty(ipText.getText().toString())) {
-                    return;
-                }
-
-                webView.loadUrl(ipText.getText().toString());
-            }
-        });
     }
 
     private void doVPNLogin() {
@@ -246,12 +248,13 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     /**
      * 设置登录信息
      */
-    private void setLoginInfo() {
+    private void getLoginInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
 
         mVpnAddress = sharedPreferences.getString("VpnAddress", mVpnAddress);
         String userName = sharedPreferences.getString("UserName", mUserName);
         String userPassword = sharedPreferences.getString("UserPassword", mUserPassword);
+        String webViewIp = sharedPreferences.getString("WebViewAddress", null);
 
         if (!TextUtils.isEmpty(userName)) {
             mUserName = userName;
@@ -266,10 +269,30 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         }
 
         if (!TextUtils.isEmpty(mVpnAddress)) {
-            mIPEditText.setText(mVpnAddress.trim());
+            mVPNEditText.setText(mVpnAddress.trim());
         }
+
+        if (!TextUtils.isEmpty(webViewIp)) {
+            GlobalConstant.webviewIp = webViewIp;
+            mWebViewIpEditText.setText(webViewIp);
+        }
+
         mUserNameEditView.setText(mUserName);
         mUserPasswordEditView.setText(mUserPassword);
+    }
+
+    /**
+     * SharedPreferences保存登录信息
+     */
+    private void setLoginInfo() {
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("VpnAddress", mVpnAddress);
+        //保存用户名和密码，真实场景请加密存储
+        editor.putString("UserName", mUserName);
+        editor.putString("UserPassword", mUserPassword);
+        editor.putString("WebViewAddress", GlobalConstant.webviewIp);
+        editor.apply();
     }
 
     /**
@@ -278,7 +301,8 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     private boolean getValueFromView() {
         mAuthMethod = AUTH_TYPE_PASSWORD; //authMethod.equals(getString(R.string.str_tab_password)) ? AUTH_TYPE_PASSWORD : AUTH_TYPE_CERTIFICATE;
 
-        mVpnAddress = mIPEditText.getText().toString().trim();
+        GlobalConstant.webviewIp = mWebViewIpEditText.getText().toString().trim();
+        mVpnAddress = mVPNEditText.getText().toString().trim();
         if (TextUtils.isEmpty(mVpnAddress)) {
             Toast.makeText(MainActivity.this, R.string.str_vpn_address_is_empty, Toast.LENGTH_SHORT).show();
             return false;
@@ -431,7 +455,7 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
         //停止登录进度框
         cancelWaitingProgressDialog();
         //保存登录信息
-        saveLoginInfo();
+        setLoginInfo();
         // 认证成功后即可开始访问资源
         doResourceRequest();
         handler.removeCallbacks(reLoginRunnable);
@@ -463,9 +487,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
                      */
                     mSFManager.onActivityResult(requestCode, resultCode);
                     break;
-                case VPNWebView.FILE_CAMERA_RESULT_CODE:
-                case VPNWebView.FILE_CHOOSER_RESULT_CODE:
-                    webView.onActivityResult(requestCode, resultCode, data);
+                case GlobalConstant.FILE_CAMERA_RESULT_CODE:
+                case GlobalConstant.FILE_CHOOSER_RESULT_CODE:
+                    refreshWebView.onActivityResult(requestCode, resultCode, data);
                     break;
             }
         } catch (Exception e) {
@@ -737,29 +761,16 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
     }
 
     /**
-     * SharedPreferences保存登录信息
-     */
-    private void saveLoginInfo() {
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("VpnAddress", mVpnAddress);
-        //保存用户名和密码，真实场景请加密存储
-        editor.putString("UserName", mUserName);
-        editor.putString("UserPassword", mUserPassword);
-        editor.apply();
-    }
-
-    /**
      * 可以开始访问资源。
      */
     private void doResourceRequest() {
         viewSetting.setVisibility(View.GONE);
         if (!isFirstLoginSuccess) {
             isFirstLoginSuccess = true;
-            webView.load();
+            refreshWebView.load();
         } else {
             //webView.reload();
-            webView.load();
+            refreshWebView.load();
         }
     }
 
@@ -835,13 +846,11 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
      */
     @Override
     protected void permissionGrantedSuccess() {
-        GpsManager.getInstance().init(this);
         autoLogin();
     }
 
     @Override
     protected void permissionLowLevel() {
-        GpsManager.getInstance().init(this);
         autoLogin();
     }
 
@@ -876,5 +885,11 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NetChangeEvent event) {
+        //refreshWebView.reload();
+        //doVPNLogin();
     }
 }

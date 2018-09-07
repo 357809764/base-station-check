@@ -18,7 +18,6 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.webkit.DownloadListener;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -27,62 +26,67 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AbsoluteLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.extras.PullToRefreshWebView2;
-import com.sangfor.bugreport.logger.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshWebView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 
-public class VPNWebView extends WebView {
-    private static final String TAG = "AuthSuccessActivity";
-    private final int TEST_URL_TIMEOUT_MILLIS = 8 * 1000;// 测试vpn资源的超时时间
-    public final static int FILE_CHOOSER_RESULT_CODE = 128;//图片
-    public final static int FILE_CAMERA_RESULT_CODE = 129;  //拍照
+public class RefreshWebView extends PullToRefreshWebView {
+    private WebView webView;
+    private Context context;
+    public TextView tvNetError;
     private ValueCallback<Uri> uploadMessage;  //5.0以下使用
     private ValueCallback<Uri[]> uploadMessageAboveL;   // 5.0及以上使用
-    private Activity activity;
-    public TextView tvNetError;
     private String cameraFilePath = Environment.getExternalStorageDirectory() + "/upload.jpg";//拍照图片路径
-    private String[] urlArray = new String[]{
-            "http://134.129.112.108:3694/?ys_ver=i1",
-            "http://120.36.56.152:3694/?ys_ver=i1"
-    };
 
-    public VPNWebView(Context context) {
+    public RefreshWebView(Context context) {
         super(context);
         initView(context);
     }
 
-    public VPNWebView(Context context, AttributeSet attrs) {
+    public RefreshWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
-
     }
 
-    public VPNWebView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public RefreshWebView(Context context, Mode mode) {
+        super(context, mode);
+        initView(context);
+    }
+
+    public RefreshWebView(Context context, Mode mode, AnimationStyle style) {
+        super(context, mode, style);
         initView(context);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(Context context) {
-        activity = (Activity) context;
+        webView = getRefreshableView();
+        this.context = context;
+
+        tvNetError = new TextView(context);
+        AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(-1, -1, 15, 15);
+        webView.addView(tvNetError, layoutParams);
+        tvNetError.setText("服务器异常请联系管理员~");
+        tvNetError.setVisibility(GONE);
 
         //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        setWebViewClient(new MyWebViewClient());
-        setWebChromeClient(new MyWebChromeClient());
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.setWebChromeClient(new MyWebChromeClient());
         setLongClickable(true);
         setScrollbarFadingEnabled(true);
         setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         setDrawingCacheEnabled(true);
         setVerticalScrollBarEnabled(false);
 
-        WebSettings settings = getSettings();
+        WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true); // 网页中包含JavaScript内容需调用以下方法，参数为true
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setGeolocationEnabled(true);
@@ -108,18 +112,17 @@ public class VPNWebView extends WebView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (0 != (getContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
-                setWebContentsDebuggingEnabled(true);
+                webView.setWebContentsDebuggingEnabled(true);
             }
         }
 
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); // 不使用缓存，只从网络获取数据。
         settings.setBuiltInZoomControls(true); // 设置出现缩放工具
 
-        setDownloadListener(new DownloadListener() {
+        setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<WebView>() {
             @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                Intent localIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
-                activity.startActivity(localIntent);
+            public void onRefresh(PullToRefreshBase<WebView> refreshView) {
+                reload();
             }
         });
     }
@@ -129,26 +132,32 @@ public class VPNWebView extends WebView {
      * WebView的回收销毁，防止内存泄漏
      */
     public void destroy() {
-        clearHistory();
-        clearCache(true);
-        loadUrl("about:blank");
-        freeMemory();
-        pauseTimers();
+        webView.clearHistory();
+        webView.clearCache(true);
+        webView.loadUrl("about:blank");
+        webView.freeMemory();
+        webView.pauseTimers();
     }
 
+
     public void load() {
-        if (tvNetError != null) {
-            tvNetError.setVisibility(GONE);
-        }
-        String url = urlArray[0];
+        String url = GlobalConstant.webviewIp;
         if (url == null || url.equals("")) {
-            Log.info(TAG, "load url is wrong!");
+            //Log.info(TAG, "load url is wrong!");
             return;
         }
         if (!url.contains("http")) {
             url = "http://" + url;
         }
-        loadUrl(url);
+        webView.loadUrl(url);
+    }
+
+    public void reload() {
+        if (tvNetError != null && tvNetError.getVisibility() == VISIBLE) {
+            load();
+        } else {
+            webView.reload();
+        }
     }
 
     private WebViewListener listener;
@@ -158,7 +167,7 @@ public class VPNWebView extends WebView {
     }
 
     private class MyWebViewClient extends WebViewClient {
-        private boolean isFirst = true;
+        private boolean isError;
 
         public MyWebViewClient() {
         }
@@ -173,31 +182,36 @@ public class VPNWebView extends WebView {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
-            reload();
-            //Toast.makeText(getContext(), R.string.str_webview_load_error, Toast.LENGTH_SHORT).show();
+            view.loadUrl("about:blank");
             if (tvNetError != null) {
-                tvNetError.setText("服务器异常请联系管理员~");
-                // tvNetError.setVisibility(VISIBLE);
+                tvNetError.setVisibility(VISIBLE);
             }
             android.util.Log.e("yanshoutag", "onReceivedError " + description);
+            isError = true;
         }
 
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            Log.info(TAG, "onPageStarted url = " + url);
-            addJavascriptInterface(jsInterface, "YanShouInterface");
+            if (tvNetError != null) {
+                tvNetError.setVisibility(GONE);
+            }
+            view.addJavascriptInterface(jsInterface, "YanShouInterface");
             android.util.Log.e("yanshoutag", "onPageStarted url = " + url);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             //清除缓存
-            clearCache(true);
-            clearHistory();
+            view.clearCache(true);
+            view.clearHistory();
             super.onPageFinished(view, url);
             android.util.Log.e("yanshoutag", "onPageFinished url = " + url);
+
+            if (!isError && tvNetError != null) {
+                tvNetError.setVisibility(GONE);
+            }
         }
 
         @Override
@@ -205,6 +219,7 @@ public class VPNWebView extends WebView {
             handler.proceed();// 忽略证书错误
             android.util.Log.e("yanshoutag", "onReceivedSslError error = " + error);
         }
+
     }
 
     private class MyWebChromeClient extends WebChromeClient {
@@ -239,6 +254,12 @@ public class VPNWebView extends WebView {
             openImageChooserActivity();
             return true;
         }
+
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress >= 100) {
+                onRefreshComplete();
+            }
+        }
     }
 
     private void openImageChooserActivity() {
@@ -257,7 +278,7 @@ public class VPNWebView extends WebView {
         }
 
         if (listener != null) {
-            listener.takeCamera(cameraFilePath, FILE_CAMERA_RESULT_CODE);
+            listener.takeCamera(cameraFilePath, GlobalConstant.FILE_CAMERA_RESULT_CODE);
         }
     }
 
@@ -275,7 +296,7 @@ public class VPNWebView extends WebView {
             return;
         }
         Uri result = null;
-        if (requestCode == FILE_CAMERA_RESULT_CODE) {
+        if (requestCode == GlobalConstant.FILE_CAMERA_RESULT_CODE) {
             if (null != data && null != data.getData()) {
                 result = data.getData();
             }
@@ -289,7 +310,7 @@ public class VPNWebView extends WebView {
                 uploadMessage.onReceiveValue(result);
                 uploadMessage = null;
             }
-        } else if (requestCode == FILE_CHOOSER_RESULT_CODE) {
+        } else if (requestCode == GlobalConstant.FILE_CHOOSER_RESULT_CODE) {
             if (data != null) {
                 result = data.getData();
             }
@@ -362,4 +383,6 @@ public class VPNWebView extends WebView {
             return jsonObject.toString();
         }
     }
+
+
 }

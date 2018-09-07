@@ -6,57 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/web_view_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.sy.yanshou.VPNWebView
-            android:id="@+id/view_vnp"
+        <com.sy.yanshou.RefreshWebView
+            android:id="@+id/refresh_webview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:background="@color/lightgray">
-
-            <TextView
-                android:id="@+id/tv_net_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#CC000000"
-                android:visibility="gone" />
-        </com.sy.yanshou.VPNWebView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/colorAccent"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/et_ip_test"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:hint="请输入ip地址"
-                android:singleLine="true"
-                android:text="http://120.36.56.152:3694/?ys_ver=i1"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/btn_ip_test"
-                android:layout_width="80dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:background="@drawable/auth_button_login"
-                android:text="连接"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
 
     <LinearLayout
@@ -106,6 +65,34 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:text="内网IP"
+                    android:textColor="#131313"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/et_net_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入内网ip地址"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0f131313" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -210,7 +197,7 @@
                 android:text="导入配置"
                 android:textColor="#ffffff"
                 android:textSize="20sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btn_test"
