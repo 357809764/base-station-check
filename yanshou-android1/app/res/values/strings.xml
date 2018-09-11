@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">SDKTest</string>
+
+    <string name="str_svpn_ip">IP</string>
+    <string name="str_svpn_port">443</string>
+    <string name="str_tab_password">账号登录</string>
+    <string name="str_tab_cert">证书登录</string>
+    <string name="str_intranet_resource">内网资源</string>
+    <string name="str_extranet_resource">外网资源</string>
+    <string name="str_white_package">白名单</string>
+    <string name="str_waiting">请稍候...</string>
+    <string name="str_url_protocol_error">不支持当前协议头</string>
+    <string name="str_url_error">vpn地址不符合url规范</string>
+    <string name="str_vpn_type_error">VPN模式选择错误</string>
+    <string name="str_auth_type_select_error">认证方式选择错误</string>
+    <string name="str_vpn_address_is_empty">VPN地址为空，请重新输入</string>
+    <string name="str_vpn_port_is_empty">VPN端口为空，使用默认端口号：443</string>
+    <string name="str_vpn_port_is_error">VPN端口错误，请重新输入</string>
+    <string name="str_vpn_port_error">VPN端口号解析异常</string>
+    <string name="str_username_is_empty">用户名为空，请重新输入</string>
+    <string name="str_cert_path_is_empty">证书路径为空，请重新输入</string>
+    <string name="str_auth_type_error">认证方式错误</string>
+    <string name="str_login_failed">登录失败!</string>
+    <string name="str_ticket_not_support">免密未开启或失效</string>
+    <string name="str_next_auth">下一次认证为:</string>
+    <string name="str_vpn_online">vpn在线</string>
+    <string name="str_vpn_offline">vpn离线</string>
+    <string name="str_vpn_reconnected">vpn重连中</string>
+    <string name="str_login_success">登录成功</string>
+    <string name="str_vpn_status">vpn当前状态:</string>
+    <string name="str_vpn_logout">注销vpn</string>
+    <string name="str_commit">提交</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_password_not_same">两次输入密码不一致,请重新输入</string>
+    <string name="str_not_get_phone_number">手机号：无法获取</string>
+    <string name="str_phone_number">手机号：</string>
+    <string name="str_no_hint">提示：无提示信息</string>
+    <string name="str_hint">提示：</string>
+    <string name="str_no_policy">暂无相关密码策略</string>
+    <string name="str_policy_hint">密码策略：</string>
+    <string name="str_after_time_resend">秒后重新发送</string>
+    <string name="str_resend">重新发送</string>
+    <string name="str_permission_not_all_pass">权限未全部授权，部分功能将受限！</string>
+</resources>

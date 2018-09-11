@@ -1,0 +1,111 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "26.0.0"
+
+    defaultConfig {
+        applicationId "com.sangfor.vpn.vpndemo"
+        minSdkVersion 17
+        targetSdkVersion 20
+        versionCode 3
+        versionName "3.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // Specifies the ABI configurations of your native
+            // libraries Gradle should build and package with your APK.
+            abiFilters 'x86', 'armeabi', 'armeabi-v7a'
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+//            jni.srcDirs = ['jni']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+
+    productFlavors {
+        emm {
+        }
+    }
+
+    signingConfigs {
+        release {
+
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            jniDebuggable true
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles 'proguard.cfg'
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+//            path 'jni/Android.mk'
+        }
+    }
+}
+
+task makeJar(type: Copy) {
+    delete 'libs/SangforSDK.jar'
+    from('build/intermediates/classes/release/')
+    into('libs/')
+    include('classes.jar')
+    rename('classes.jar', 'SangforSDK.jar')
+}
+
+makeJar.dependsOn(build)
+
+
+dependencies {
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile files('lib/org.apache.http.legacy.jar')
+    //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.1'
+    compile files('lib/SangforSDK.jar')
+}
