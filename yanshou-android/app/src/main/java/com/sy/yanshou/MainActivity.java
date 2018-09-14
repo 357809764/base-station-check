@@ -188,9 +188,9 @@ public class MainActivity extends BaseCheckPermissionActivity implements LoginRe
             @Override
             public void onClick(View v) {
                 mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");
-                mVPNEditText.setText("https://218.85.155.91:443");
-                mUserNameEditView.setText("fjzhengxy");
-                mUserPasswordEditView.setText("aqgz.#2000GXB");
+                mVPNEditText.setText("https://218.85.155.91:443");//https://218.85.155.91:443
+                mUserNameEditView.setText("fjdx#cwwy"); //fjzhengxy
+                mUserPasswordEditView.setText("fjdxDB@#qtG12");//"aqgz.#2000GXB"
             }
         });
 

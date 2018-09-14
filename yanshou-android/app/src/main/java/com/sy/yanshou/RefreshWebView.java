@@ -16,6 +16,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
@@ -153,7 +154,9 @@ public class RefreshWebView extends PullToRefreshWebView {
     }
 
     public void reload() {
-        if (tvNetError != null && tvNetError.getVisibility() == VISIBLE) {
+        String url = webView.getUrl();
+        if ((TextUtils.isEmpty(url) || url.equals("about:blank")) ||
+                (tvNetError != null && tvNetError.getVisibility() == VISIBLE)) {
             load();
         } else {
             webView.reload();
