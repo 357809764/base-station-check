@@ -60,8 +60,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     //暂时只支持https协议，不提供端口号时，使用默认443端口
     private String mVpnAddress = "https://218.85.155.91:443";
     private URL mVpnAddressURL = null;
-    private String mUserName = "";
-    private String mUserPassword = "";
+    private String mUserName = "fjdx#cwwy"; //"fjzhengxy"
+    private String mUserPassword = "fjdxDB@#qtG12"; //"aqgz.#2000GXB"
     // 证书认证；导入证书路径和证书密码
     private String mCertPath = "";
     private String mCertPassword = "";
@@ -122,7 +122,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         mUserPasswordEditView = (EditText) findViewById(R.id.svpn_userPassword_editView);
         mCertPathEditView = (EditText) findViewById(R.id.svpn_certPath_editView);
         mCertPasswordEditView = (EditText) findViewById(R.id.svpn_certPassword_editView);
-        mWhitePackageEditView =  (EditText) findViewById(R.id.svpn_whitepackage_editView);
+        mWhitePackageEditView = (EditText) findViewById(R.id.svpn_whitepackage_editView);
         mCertFileSelectView = (ImageView) findViewById(R.id.svpn_certFile_select_imageView);
         mAuthMethodRadioGroup = (RadioGroup) findViewById(R.id.svpn_auth_tabheader);
         mLoginButton = (Button) findViewById(R.id.svpn_login_button);
@@ -205,7 +205,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 注册vpn状态监听器，可在多处进行注册
      */
-    private void addStatusChangedListener() throws SFException{
+    private void addStatusChangedListener() throws SFException {
         mSFManager.addStatusChangedListener(new OnStatusChangedListener() {
             @Override
             public void onStatusCallback(IVpnDelegate.VPNStatus vpnStatus, StatusChangedReason reason) {
@@ -277,8 +277,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
         switch (mAuthMethod) {
             case AUTH_TYPE_PASSWORD:
-                mUserName = "fjzhengxy";//mUserNameEditView.getText().toString().trim();
-                mUserPassword = "aqgz.#2000GXB";//mUserPasswordEditView.getText().toString().trim();
+                mUserName = mUserNameEditView.getText().toString().trim();
+                mUserPassword = mUserPasswordEditView.getText().toString().trim();
                 if (TextUtils.isEmpty(mUserName)) {
                     Toast.makeText(this, R.string.str_username_is_empty, Toast.LENGTH_SHORT).show();
                     return false;
@@ -329,7 +329,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
                     Toast.makeText(LoginActivity.this, R.string.str_auth_type_error, Toast.LENGTH_SHORT).show();
                     break;
             }
-        }catch (SFException e) {
+        } catch (SFException e) {
             //关闭登录进度框
             cancelWaitingProgressDialog();
             Log.info(TAG, "SFException:%s", e);
@@ -346,7 +346,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         // 2.设置VPN认证结果回调
         try {
             mSFManager.setLoginResultListener(this);
-        }catch (SFException e) {
+        } catch (SFException e) {
             Log.info(TAG, "SFException:%s", e);
         }
 
@@ -356,8 +356,9 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
     /**
      * 登录失败回调接口
-     * @param errorCode  错误码
-     * @param errorStr   错误信息
+     *
+     * @param errorCode 错误码
+     * @param errorStr  错误信息
      */
     @Override
     public void onLoginFailed(ErrorCode errorCode, String errorStr) {
@@ -375,6 +376,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
     /**
      * 登录进行中回调接口
+     *
      * @param nextAuthType 下次认证类型
      *                     组合认证时必须实现该接口
      */
@@ -435,9 +437,10 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
     /**
      * 创建认证对话框，初始化点击事件
-     * @param sfaDialog   对话框实例
-     * @param authType    认证类型
-     * @param message     认证附加信息
+     *
+     * @param sfaDialog 对话框实例
+     * @param authType  认证类型
+     * @param message   认证附加信息
      */
     public void createAuthDialog(final SangforAuthDialog sfaDialog, final int authType, final BaseMessage message) {
         closeDialog();
@@ -464,6 +467,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
     /**
      * 开启对话框认证流程
+     *
      * @param authType   认证类型
      * @param dialogView 对话框视图
      */
@@ -530,17 +534,18 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
                 default:
                     break;
             }
-        }catch (SFException e) {
+        } catch (SFException e) {
             Log.info(TAG, "SFException:%s", e);
         }
     }
 
     /**
      * 创建认证对话框中间显示的视图
+     *
      * @param aythtype 认证类型
      * @param layoutId 要加载的视图的布局ID
      * @param message  认证附加信息
-     * @return  认证对话框视图
+     * @return 认证对话框视图
      */
     public View createDialogView(int aythtype, int layoutId, BaseMessage message) {
         LayoutInflater inflater = getLayoutInflater();
@@ -561,7 +566,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
                 }
 
                 //开启短信码倒计时
-                smsCountDownTimer(btnGetVerficationCode, ((SmsMessage)message).getCountDown());
+                smsCountDownTimer(btnGetVerficationCode, ((SmsMessage) message).getCountDown());
                 btnGetVerficationCode.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) { //重新获取验证码，阻塞方法，需要自己实现异步
@@ -645,15 +650,16 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
     /**
      * 短信验证码倒计时器
+     *
      * @param button 显示计时的按钮控件
      */
-    private void smsCountDownTimer(final  Button button, final int countDown) {
+    private void smsCountDownTimer(final Button button, final int countDown) {
         mSmsRefreshTime = countDown < 0 ? DEFAULT_SMS_COUNTDOWN : countDown;
         //开启短信验证码倒计时，第一个参数为倒计时时间（毫秒），第二个为时间间隔
-        CountDownTimer countDownTimer = new CountDownTimer(mSmsRefreshTime*1000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(mSmsRefreshTime * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                button.setText(millisUntilFinished/1000 + getString(R.string.str_after_time_resend));
+                button.setText(millisUntilFinished / 1000 + getString(R.string.str_after_time_resend));
                 button.setTextColor(Color.parseColor("#708090"));
                 button.setClickable(false);
             }
@@ -683,7 +689,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
      * SharedPreferences保存登录信息
      */
     private void saveLoginInfo() {
-        SharedPreferences sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("VpnAddress", mVpnAddress);
         //保存用户名和密码，真实场景请加密存储
@@ -713,7 +719,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     }
 
     /**
-     *创建登录进度框
+     * 创建登录进度框
      */
     protected void createWaitingProgressDialog() {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
