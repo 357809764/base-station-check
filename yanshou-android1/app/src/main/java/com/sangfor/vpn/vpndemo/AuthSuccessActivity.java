@@ -49,7 +49,7 @@ import javax.net.ssl.X509TrustManager;
 public class AuthSuccessActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AuthSuccessActivity";
-    private static String sTestURL = "http://200.200.0.17";
+    private static String sTestURL = "http://134.129.112.108:3694/?ys_ver=i1";
     private final int TEST_URL_TIMEOUT_MILLIS = 8 * 1000;// 测试vpn资源的超时时间
 
     private EditText    mEtUrl;

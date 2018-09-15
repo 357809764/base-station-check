@@ -61,10 +61,10 @@ public class LoginActivity extends com.sangfor.vpn.vpndemo.BaseCheckPermissionAc
     private SangforAuthManager mSFManager = null;
     private VPNMode mVpnMode = VPNMode.L3VPN;            //默认开启L3VPN模式
     //暂时只支持https协议，不提供端口号时，使用默认443端口
-    private String mVpnAddress = "https://199.201.74.18";
+    private String mVpnAddress = "https://218.85.155.91:443";
     private URL mVpnAddressURL = null;
-    private String mUserName = "xxb";
-    private String mUserPassword = "1";
+    private String mUserName = "fjdx#cwwy";
+    private String mUserPassword = "fjdxDB@#qtG12";
     // 证书认证；导入证书路径和证书密码
     private String mCertPath = "";
     private String mCertPassword = "";
