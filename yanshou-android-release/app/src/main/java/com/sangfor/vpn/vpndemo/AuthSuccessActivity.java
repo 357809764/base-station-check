@@ -1,11 +1,15 @@
 package com.sangfor.vpn.vpndemo;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -20,11 +24,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.sangfor.ssl.ChangePasswordResult;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.ssl.service.utils.logger.Log;
+import com.sangfor.user.SangforAuthDialog;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -50,6 +58,7 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
     private RadioGroup  mRadioGroup_authMethod = null;
     private RadioButton mRadioButton_selected_authMethod = null;
     private AutoCompleteTextView mAutoCompleteTextView = null;
+    private AsyncTask<Void, Void, ChangePasswordResult> changePwdTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +134,47 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
             case R.id.btn_logout:
                 doVPNLogout();
                 break;
+
+            case R.id.btn_changepwd:
+                //弹出修改密码框
+                SangforAuthDialog sangforAuthDialog = new SangforAuthDialog(this);
+                LayoutInflater layoutInflater = getLayoutInflater();
+                final View dialogView = layoutInflater.inflate(R.layout.dialog_force_update_pwd_with_old_pwd, null);
+                sangforAuthDialog.createDialog("修改密码", dialogView);
+
+                //对话框点击事件
+                sangforAuthDialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //获取密码
+                        String oldPwd = ((EditText) dialogView.findViewById(R.id.et_oldpwd)).getText().toString().trim();
+                        String newPwd = ((EditText) dialogView.findViewById(R.id.et_newpwd)).getText().toString().trim();
+                        String renewPwd = ((EditText) dialogView.findViewById(R.id.et_renewpwd)).getText().toString().trim();
+
+                        if (TextUtils.equals(newPwd, renewPwd)) {
+                            //异步操作，修改密码
+                            changePwdTask = new ChangePwdTask(AuthSuccessActivity.this, oldPwd, renewPwd);
+                            changePwdTask.execute();
+
+                        } else {
+                            Toast.makeText(AuthSuccessActivity.this, R.string.str_password_not_same,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                            dialog = null;
+                        }
+                    }
+                }).show();
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -136,8 +186,8 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
         mRadioButton_selected_authMethod = (RadioButton) findViewById(mRadioGroup_authMethod.getCheckedRadioButtonId());
         String resourceType = mRadioButton_selected_authMethod.getText().toString().trim();
         EditText editText = resourceType.equals(getString(R.string.str_intranet_resource)) ? mEtUrl : mAutoCompleteTextView;
-        // 通过直接http请求测试网络，将测试结果写到logcat，便于分析
-//        new TestThread(editText.getText().toString()).start();
+        //通过直接http请求测试网络，将测试结果写到logcat，便于分析
+        new TestThread(editText.getText().toString()).start();
 
         // 将测试结果展示到界面上，直观展示
         LoadPageByWebView(editText.getText().toString());
@@ -150,7 +200,6 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
         // 注销VPN登录.
         SangforAuthManager.getInstance().vpnLogout();
         Toast.makeText(AuthSuccessActivity.this, R.string.str_vpn_logout, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(AuthSuccessActivity.this, LoginActivity.class));
         finish();
     }
 
@@ -240,6 +289,10 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         destroyWebView();
+
+        if (changePwdTask != null) {
+            changePwdTask.cancel(true);
+        }
         super.onDestroy();
     }
 
@@ -457,5 +510,41 @@ public class AuthSuccessActivity extends AppCompatActivity implements View.OnCli
 
         String result = response.toString();
         Log.info(TAG, url + " response = " + result);
+    }
+
+
+
+    private static class ChangePwdTask extends AsyncTask<Void, Void, ChangePasswordResult> {
+        private final WeakReference<AuthSuccessActivity> authSuccessActivityWeak;
+        private  String myoldPwd = "";
+        private  String mynewPwd = "";
+
+        public ChangePwdTask(AuthSuccessActivity activity, String oldPwd, String newPwd) {
+            authSuccessActivityWeak = new WeakReference<AuthSuccessActivity>(activity);
+            myoldPwd = oldPwd;
+            mynewPwd = newPwd;
+        }
+
+        @Override
+        protected ChangePasswordResult doInBackground(Void... params) {
+
+            ChangePasswordResult result = SangforAuthManager.getInstance().changePassword(myoldPwd, mynewPwd);
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(ChangePasswordResult result) {
+            AuthSuccessActivity authSuccessActivity = authSuccessActivityWeak.get();
+            if (authSuccessActivity != null) {
+                if (result.isSuccess()) {
+                    Toast.makeText(authSuccessActivity, "修改密码成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(authSuccessActivity, "修改密码失败：" + result.getResultStr(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            super.onPostExecute(result);
+        }
     }
 }

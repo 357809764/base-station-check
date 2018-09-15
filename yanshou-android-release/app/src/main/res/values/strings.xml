@@ -25,6 +25,7 @@
     <string name="str_next_auth">下一次认证为:</string>
     <string name="str_vpn_online">vpn在线</string>
     <string name="str_vpn_offline">vpn离线</string>
+    <string name="str_vpn_reconnected">vpn重连中</string>
     <string name="str_login_success">登录成功</string>
     <string name="str_vpn_status">vpn当前状态:</string>
     <string name="str_vpn_logout">注销vpn</string>

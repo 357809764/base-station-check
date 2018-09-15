@@ -18,20 +18,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sangfor.bugreport.logger.Log;
 import com.sangfor.ssl.BaseMessage;
 import com.sangfor.ssl.ChallengeMessage;
 import com.sangfor.ssl.ChangePswMessage;
-import com.sangfor.ssl.OnStatusChangedListener;
-import com.sangfor.ssl.RandCodeListener;
 import com.sangfor.ssl.IVpnDelegate;
 import com.sangfor.ssl.LoginResultListener;
+import com.sangfor.ssl.OnStatusChangedListener;
+import com.sangfor.ssl.RandCodeListener;
 import com.sangfor.ssl.SFException;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.ssl.SmsMessage;
@@ -47,8 +46,12 @@ import java.util.List;
 
 public class LoginActivity extends BaseCheckPermissionActivity implements LoginResultListener, RandCodeListener {
     //需要用到的权限列表，WRITE_EXTERNAL_STORAGE权限在android6.0设备上需要动态申请
-    private static final String[] ALL_PERMISSIONS_NEED = {Manifest.permission.INTERNET, Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+    private static final String[] ALL_PERMISSIONS_NEED = {
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,};
 
     private static final String TAG = "LoginActivity";
     private static final int CERTFILE_REQUESTCODE = 33;        //主界面中证书选择器请求码
@@ -60,8 +63,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     //暂时只支持https协议，不提供端口号时，使用默认443端口
     private String mVpnAddress = "https://218.85.155.91:443";
     private URL mVpnAddressURL = null;
-    private String mUserName = "fjdx#cwwy"; //"fjzhengxy"
-    private String mUserPassword = "fjdxDB@#qtG12"; //"aqgz.#2000GXB"
+    private String mUserName = "fjdx#cwwy";
+    private String mUserPassword = "fjdxDB@#qtG12";
     // 证书认证；导入证书路径和证书密码
     private String mCertPath = "";
     private String mCertPassword = "";
@@ -93,19 +96,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        initLoginParms();
-        //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，走正常流程
-        if (mSFManager.ticketAuthAvailable(this)) { //允许免密，直接走免密流程
-            try {
-                //开启登录进度框
-                createWaitingProgressDialog();
-                mSFManager.startTicketAuthLogin(getApplication(), LoginActivity.this, mVpnMode);
-            } catch (SFException e) {
-                //关闭登录进度框
-                cancelWaitingProgressDialog();
-                Log.info(TAG, "SFException:%s", e);
-            }
-        }
+        //尝试进行免密登录
+        startTicketLogin();
 
         initView();
         initClickEvents();
@@ -146,7 +138,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
             }
         });
 
-        //ByPass按钮监听,开启bypass模式后，所有SDK功能失效，登录回调到onLoginSuccess
+        //ByPass按钮监听
         mTicketLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,8 +202,18 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
             @Override
             public void onStatusCallback(IVpnDelegate.VPNStatus vpnStatus, StatusChangedReason reason) {
                 //对回调结果进行处理，这里只是简单的显示，可根据业务需求自行扩展
-                String status = (vpnStatus == IVpnDelegate.VPNStatus.VPNONLINE) ?
-                        getString(R.string.str_vpn_online) : getString(R.string.str_vpn_offline);
+                String status = "";
+                switch (vpnStatus) {
+                    case VPNONLINE:
+                        status = getString(R.string.str_vpn_online);
+                        break;
+                    case VPNOFFLINE:
+                        status = getString(R.string.str_vpn_offline);
+                        break;
+                    case VPNRECONNECTED:
+                        status = getString(R.string.str_vpn_reconnected);
+                        break;
+                }
                 Toast.makeText(LoginActivity.this, status, Toast.LENGTH_SHORT).show();
             }
         });
@@ -300,6 +302,32 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     }
 
     /**
+     * 进行免密登录流程
+     */
+    private void startTicketLogin() {
+        if (isFinishing()) {
+            return;
+        }
+        initLoginParms();
+
+        //判断是否开启免密，如果免密直接进行一次登录，如果无法免密或免密登录失败，通知界面
+        if (mSFManager.ticketAuthAvailable(LoginActivity.this)) { //允许免密，直接走免密流程
+            //开启登录进度框
+            createWaitingProgressDialog();
+            try {
+                addStatusChangedListener(); //添加vpn状态变化监听器
+                mSFManager.startTicketAuthLogin(getApplication(), LoginActivity.this, mVpnMode);
+            } catch (SFException e) {
+                //关闭登录进度框
+                cancelWaitingProgressDialog();
+                Log.info(TAG, "SFException:%s", e);
+            }
+        } else {
+            Toast.makeText(LoginActivity.this, R.string.str_ticket_not_support, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
      * 初始登录统一接口
      */
     private void startVPNInitAndLogin() {
@@ -351,7 +379,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         }
 
         //3.设置登录超时时间，单位为秒
-        mSFManager.setAuthConnectTimeOut(3);
+        mSFManager.setAuthConnectTimeOut(8);
     }
 
     /**
@@ -426,7 +454,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
                 mCertPathDialogEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
                 break;
             case IVpnDelegate.REQUEST_L3VPNSERVICE:
-                /* L3VPN模式下下必须回调此方法
+                /* L3VPN模式下下必须回调此方法, EasyApp模式下不用
                  * 注意：当前Activity的launchMode不能设置为 singleInstance，否则L3VPN服务启动会失败。
                  */
                 mSFManager.onActivityResult(requestCode, resultCode);
