@@ -118,7 +118,7 @@ public class GpsManager {
             switch (status) {
                 //GPS状态为可见时
                 case LocationProvider.AVAILABLE:
-                    Log.i("Gps", "当前GPS状态为可见状态");
+                   // Log.i("Gps", "当前GPS状态为可见状态");
                     break;
                 //GPS状态为服务区外时
                 case LocationProvider.OUT_OF_SERVICE:
