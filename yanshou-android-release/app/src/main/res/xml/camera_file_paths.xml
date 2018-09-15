@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<paths xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--&lt;!&ndash;需要指定root-path&ndash;&gt;-->
+    <!--<root-path name="root_path" path="."/>-->
+    <!--&lt;!&ndash;填写你要所要申请访问的目录地址，name最好是你的目录名，path是你要申请的目录&ndash;&gt;-->
+    <!--<external-path name="camera_photos" path="."  />-->
+    <!--<external-path name="cache" path="sdcard" />-->
+    <!--<external-path name="imagesRecordInfo" path="Pictures/" />-->
+    <!--<external-path name="dcim" path="DCIM/" />-->
+<!--</paths>-->
+
+<resources>
+    <paths>
+        <external-path
+            name="camera_photos"
+            path="" />
+    </paths>
+</resources>

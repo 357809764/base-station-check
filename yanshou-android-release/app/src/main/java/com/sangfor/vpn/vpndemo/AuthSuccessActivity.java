@@ -28,6 +28,7 @@ import com.sangfor.ssl.ChangePasswordResult;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.ssl.service.utils.logger.Log;
 import com.sangfor.user.SangforAuthDialog;
+import com.sy.yanshou.R;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

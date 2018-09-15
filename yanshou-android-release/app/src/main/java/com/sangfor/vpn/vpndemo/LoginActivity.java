@@ -38,6 +38,7 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
+import com.sy.yanshou.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,7 +52,10 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION};
 
     private static final String TAG = "LoginActivity";
     private static final int CERTFILE_REQUESTCODE = 33;        //主界面中证书选择器请求码
@@ -61,10 +65,10 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     private SangforAuthManager mSFManager = null;
     private VPNMode mVpnMode = VPNMode.L3VPN;            //默认开启L3VPN模式
     //暂时只支持https协议，不提供端口号时，使用默认443端口
-    private String mVpnAddress = "https://218.85.155.91:443";
-    private URL mVpnAddressURL = null;
-    private String mUserName = "fjdx#cwwy";
-    private String mUserPassword = "fjdxDB@#qtG12";
+    protected String mVpnAddress = null;//"https://218.85.155.91:443";
+    protected URL mVpnAddressURL = null;
+    protected String mUserName = null;//"fjdx#cwwy";
+    protected String mUserPassword = null;//"fjdxDB@#qtG12";
     // 证书认证；导入证书路径和证书密码
     private String mCertPath = "";
     private String mCertPassword = "";
@@ -151,7 +155,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         mAddWhitePackageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String packageName = mWhitePackageEditView.getText().toString().trim();
+                String packageName = mWhitePackageEditView.getText().toString();
                 if (TextUtils.isEmpty(packageName)) {
                     Toast.makeText(LoginActivity.this, R.string.str_package_empty, Toast.LENGTH_SHORT).show();
                     return;
@@ -231,7 +235,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         mCertPath = sharedPreferences.getString("CertPath", mCertPath);
         mCertPassword = sharedPreferences.getString("CertPassword", mCertPassword);
 
-        mIPEditText.setText(mVpnAddress.trim());
+        mIPEditText.setText(mVpnAddress);
         mUserNameEditView.setText(mUserName);
         mUserPasswordEditView.setText(mUserPassword);
         mCertPathEditView.setText(mCertPath);
@@ -241,11 +245,11 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 获取登录页面属性值，并进行校验
      */
-    private boolean getValueFromView() {
+    protected boolean getValueFromView() {
 
         //获取选定的认证方式
         mAuthMethodRadioButton = (RadioButton) findViewById(mAuthMethodRadioGroup.getCheckedRadioButtonId());
-        String authMethod = mAuthMethodRadioButton.getText().toString().trim();
+        String authMethod = mAuthMethodRadioButton.getText().toString();
         if (TextUtils.isEmpty(authMethod)) {
             Toast.makeText(LoginActivity.this, R.string.str_auth_type_select_error, Toast.LENGTH_SHORT).show();
             return false;
@@ -253,7 +257,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
             mAuthMethod = authMethod.equals(getString(R.string.str_tab_password)) ? AUTH_TYPE_PASSWORD : AUTH_TYPE_CERTIFICATE;
         }
 
-        mVpnAddress = mIPEditText.getText().toString().trim();
+        mVpnAddress = mIPEditText.getText().toString();
         if (TextUtils.isEmpty(mVpnAddress)) {
             Toast.makeText(LoginActivity.this, R.string.str_vpn_address_is_empty, Toast.LENGTH_SHORT).show();
             return false;
@@ -279,8 +283,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
 
         switch (mAuthMethod) {
             case AUTH_TYPE_PASSWORD:
-                mUserName = mUserNameEditView.getText().toString().trim();
-                mUserPassword = mUserPasswordEditView.getText().toString().trim();
+                mUserName = mUserNameEditView.getText().toString();
+                mUserPassword = mUserPasswordEditView.getText().toString();
                 if (TextUtils.isEmpty(mUserName)) {
                     Toast.makeText(this, R.string.str_username_is_empty, Toast.LENGTH_SHORT).show();
                     return false;
@@ -288,8 +292,8 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
                 break;
 
             case AUTH_TYPE_CERTIFICATE:
-                mCertPath = mCertPathEditView.getText().toString().trim();
-                mCertPassword = mCertPasswordEditView.getText().toString().trim();
+                mCertPath = mCertPathEditView.getText().toString();
+                mCertPassword = mCertPasswordEditView.getText().toString();
                 if (TextUtils.isEmpty(mCertPath)) {
                     Toast.makeText(this, R.string.str_cert_path_is_empty, Toast.LENGTH_SHORT).show();
                     return false;
@@ -304,7 +308,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 进行免密登录流程
      */
-    private void startTicketLogin() {
+    protected void startTicketLogin() {
         if (isFinishing()) {
             return;
         }
@@ -330,7 +334,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 初始登录统一接口
      */
-    private void startVPNInitAndLogin() {
+    protected void startVPNInitAndLogin() {
         if (isFinishing()) {
             return;
         }
@@ -367,7 +371,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 初始化登录参数
      */
-    private void initLoginParms() {
+    protected void initLoginParms() {
         // 1.构建SangforAuthManager对象
         mSFManager = SangforAuthManager.getInstance();
 
@@ -447,11 +451,11 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
         switch (requestCode) {
             case CERTFILE_REQUESTCODE:
                 //获取证书选择器结果
-                mCertPathEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
+                mCertPathEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString() : "");
                 break;
             case DIALOG_CERTFILE_REQUESTCODE:
                 //当证书认证是辅助认证时获取证书选择器结果
-                mCertPathDialogEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString().trim() : "");
+                mCertPathDialogEditView.setText((resultCode == Activity.RESULT_OK) ? data.getData().getPath().toString() : "");
                 break;
             case IVpnDelegate.REQUEST_L3VPNSERVICE:
                 /* L3VPN模式下下必须回调此方法, EasyApp模式下不用
@@ -731,7 +735,7 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
     /**
      * 可以开始访问资源。
      */
-    private void doResourceRequest() {
+    protected void doResourceRequest() {
         startActivity(new Intent(LoginActivity.this, AuthSuccessActivity.class));
     }
 
@@ -787,6 +791,11 @@ public class LoginActivity extends BaseCheckPermissionActivity implements LoginR
      */
     @Override
     protected void permissionGrantedSuccess() {
+
+    }
+
+    @Override
+    protected void permissionLowLevel() {
 
     }
 

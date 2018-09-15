@@ -2,14 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "com.sangfor.vpn.vpndemo"
+        applicationId "com.sy.yanshou"
         minSdkVersion 17
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 23
+        versionCode 3
+        versionName "3.0"
+
+        ndk {
+            abiFilters 'x86', 'armeabi', 'armeabi-v7a'
+        }
     }
 
     buildTypes {
@@ -33,4 +36,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('lib/org.apache.http.legacy.jar')
     compile files('lib/SangforSDK.jar')
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //compile 'com.handmark.pulltorefresh.library:pulltorefresh:1.0'
+    compile 'com.github.userswlwork:pull-to-refresh:1.0.0'
 }

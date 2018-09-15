@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sangfor.vpn.vpndemo"
+    package="com.sy.yanshou"
     android:versionCode="3"
     android:versionName="3.0">
 
     <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="24" />
+        android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+        android:theme="@android:style/Theme.Light.NoTitleBar">
+        <activity
+            android:name="com.sy.yanshou.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AuthSuccessActivity"
+
+        <activity
+            android:name="com.sangfor.vpn.vpndemo.AuthSuccessActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
 
         <!-- VpnService服务 -->
         <service
@@ -41,6 +51,16 @@
             </intent-filter>
         </service>
 
+        <!-- 7.0以上系统版本，调用相机需定义FileProvider，并且指定目录 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.fyl.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/camera_file_paths" />
+        </provider>
     </application>
 
 </manifest>
