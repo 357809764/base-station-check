@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshWebView;
+import com.sangfor.ssl.service.utils.logger.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.util.IllegalFormatCodePointException;
 
 public class RefreshWebView extends PullToRefreshWebView {
+    private static final String TAG = "yanshou";
     private WebView webView;
     private Context context;
     public TextView tvNetError;
@@ -202,11 +204,12 @@ public class RefreshWebView extends PullToRefreshWebView {
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
+            Log.error(TAG, "onReceivedError : " + description + " \n failingUrl : " + failingUrl);
+            android.util.Log.e(TAG, "onReceivedError : " + description + " \n failingUrl : " + failingUrl);
             view.loadUrl("about:blank");
             if (tvNetError != null) {
                 tvNetError.setVisibility(VISIBLE);
             }
-            android.util.Log.e("yanshoutag", "onReceivedError " + description);
             isError = true;
         }
 
@@ -218,7 +221,8 @@ public class RefreshWebView extends PullToRefreshWebView {
                 tvNetError.setVisibility(GONE);
             }
             //view.addJavascriptInterface(jsInterface, "YanShouInterface");
-            android.util.Log.e("yanshoutag", "onPageStarted url = " + url);
+            android.util.Log.i(TAG, "onPageStarted url = " + url);
+            Log.info(TAG, "onPageStarted url = " + url);
         }
 
         @Override
@@ -228,7 +232,8 @@ public class RefreshWebView extends PullToRefreshWebView {
             view.clearHistory();
             super.onPageFinished(view, url);
             //view.addJavascriptInterface(jsInterface, "YanShouInterface");
-            android.util.Log.e("yanshoutag", "onPageFinished url = " + url);
+            android.util.Log.i(TAG, "onPageFinished url = " + url);
+            Log.info(TAG, "onPageFinished url = " + url);
 
             if (!isError && tvNetError != null) {
                 tvNetError.setVisibility(GONE);
