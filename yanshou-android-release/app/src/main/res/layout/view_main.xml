@@ -177,6 +177,24 @@
                 android:layout_height="1dp"
                 android:background="#0f131313" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <CheckBox
+                    android:id="@+id/cb_enable_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="启用下拉刷新功能"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0f131313" />
+
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"

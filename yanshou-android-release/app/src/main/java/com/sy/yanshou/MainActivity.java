@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     private boolean isHook = true; // false 使用demo的ui，true使用自定义ui
     private View mainView;
 
+    private CheckBox mEnableRefresh;
     private EditText mWebViewIpEditText;
     private EditText mVPNEditText = null;
     private EditText mUserNameEditView;
@@ -77,7 +80,9 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     private void initViewAndEvent() {
         refreshWebView = (RefreshWebView) findViewById(R.id.refresh_webview);
         viewSetting = findViewById(R.id.view_setting);
+        viewSetting.setVisibility(View.GONE);
 
+        mEnableRefresh = (CheckBox) findViewById(R.id.cb_enable_refresh);
         mVPNEditText = (EditText) findViewById(R.id.et_ip);
         mUserNameEditView = (EditText) findViewById(R.id.et_username);
         mUserPasswordEditView = (EditText) findViewById(R.id.et_password);
@@ -108,9 +113,18 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             }
         });
 
+        mEnableRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                refreshWebView.enablePullRefresh(isChecked);
+                setLoginInfo();
+            }
+        });
+
         findViewById(R.id.btn_vpn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //"http://www.zzwankun.com/test.html"
                 mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");//http://134.129.112.108:3694/?ys_ver=i1 120.36.56.152
                 mVPNEditText.setText("https://218.85.155.91:443");
                 mUserNameEditView.setText("fjdx#cwwy"); //fjzhengxy
@@ -150,6 +164,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         SharedPreferences sharedPreferences = getSharedPreferences("config_fyl", MODE_PRIVATE);
 
         String webViewIp = sharedPreferences.getString("WebViewAddress", refreshWebView.getBaseUrl());
+        boolean isChecked = sharedPreferences.getBoolean("EnableRefresh", false);
         mVpnAddress = sharedPreferences.getString("VpnAddress", mVpnAddress);
         mUserName = sharedPreferences.getString("UserName", mUserName);
         mUserPassword = sharedPreferences.getString("UserPassword", mUserPassword);
@@ -158,6 +173,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             viewSetting.setVisibility(View.VISIBLE);
         }
 
+        mEnableRefresh.setChecked(isChecked);
         mWebViewIpEditText.setText(webViewIp);
         mVPNEditText.setText(mVpnAddress);
         mUserNameEditView.setText(mUserName);
@@ -170,6 +186,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     private void setLoginInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("config_fyl", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("EnableRefresh", mEnableRefresh.isChecked());
         editor.putString("VpnAddress", mVpnAddress);
         //保存用户名和密码，真实场景请加密存储
         editor.putString("UserName", mUserName);
@@ -229,6 +246,8 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             super.doResourceRequest();
             return;
         }
+
+        refreshWebView.enablePullRefresh( mEnableRefresh.isChecked());
 
         setLoginInfo();
         viewSetting.setVisibility(View.GONE);

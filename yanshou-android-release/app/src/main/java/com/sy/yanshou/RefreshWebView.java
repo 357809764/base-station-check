@@ -38,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.IllegalFormatCodePointException;
 
 public class RefreshWebView extends PullToRefreshWebView {
     private WebView webView;
@@ -72,6 +73,7 @@ public class RefreshWebView extends PullToRefreshWebView {
     private void initView(Context context) {
         webView = getRefreshableView();
         this.context = context;
+        webView.addJavascriptInterface(jsInterface, "YanShouInterface");
 
         tvNetError = new TextView(context);
         AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(-1, -1, 15, 15);
@@ -149,6 +151,14 @@ public class RefreshWebView extends PullToRefreshWebView {
         return baseUrl;
     }
 
+    public void enablePullRefresh(boolean enable) {
+        if (enable) {
+            setMode(Mode.PULL_FROM_START);
+        } else {
+            setMode(Mode.DISABLED);
+        }
+    }
+
     public void load() {
         if (baseUrl == null || baseUrl.equals("")) {
             //Log.info(TAG, "load url is wrong!");
@@ -207,7 +217,7 @@ public class RefreshWebView extends PullToRefreshWebView {
             if (tvNetError != null) {
                 tvNetError.setVisibility(GONE);
             }
-            view.addJavascriptInterface(jsInterface, "YanShouInterface");
+            //view.addJavascriptInterface(jsInterface, "YanShouInterface");
             android.util.Log.e("yanshoutag", "onPageStarted url = " + url);
         }
 
@@ -217,6 +227,7 @@ public class RefreshWebView extends PullToRefreshWebView {
             view.clearCache(true);
             view.clearHistory();
             super.onPageFinished(view, url);
+            //view.addJavascriptInterface(jsInterface, "YanShouInterface");
             android.util.Log.e("yanshoutag", "onPageFinished url = " + url);
 
             if (!isError && tvNetError != null) {
