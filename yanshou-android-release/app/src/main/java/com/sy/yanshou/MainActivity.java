@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.sangfor.ssl.IVpnDelegate;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.vpn.vpndemo.LoginActivity;
 import com.sy.yanshou.bean.NetChangeEvent;
@@ -38,7 +37,9 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     private boolean isHook = true; // false 使用demo的ui，true使用自定义ui
     private View mainView;
 
+    private View viewVpnCfg;
     private CheckBox mEnableRefresh;
+    private CheckBox mEnableVPN;
     private EditText mWebViewIpEditText;
     private EditText mVPNEditText = null;
     private EditText mUserNameEditView;
@@ -48,6 +49,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     private boolean isFirstLoginSuccess;
     private View viewSetting;
     private boolean isFirstLogin = true;
+    private boolean isEnableVpn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,9 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         viewSetting = findViewById(R.id.view_setting);
         viewSetting.setVisibility(View.GONE);
 
+        viewVpnCfg = findViewById(R.id.view_vpn_cfg);
         mEnableRefresh = (CheckBox) findViewById(R.id.cb_enable_refresh);
+        mEnableVPN = (CheckBox)findViewById(R.id.cb_enable_vpn);
         mVPNEditText = (EditText) findViewById(R.id.et_ip);
         mUserNameEditView = (EditText) findViewById(R.id.et_username);
         mUserPasswordEditView = (EditText) findViewById(R.id.et_password);
@@ -93,7 +97,12 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doVPNLogin();
+                if (isEnableVpn) {
+                    doVPNLogin();
+                } else {
+                    refreshWebView.setBaseUrl(mWebViewIpEditText.getText().toString().trim());
+                    doResourceRequest();
+                }
             }
         });
 
@@ -118,6 +127,20 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 refreshWebView.enablePullRefresh(isChecked);
                 setLoginInfo();
+            }
+        });
+
+        mEnableVPN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                } else {
+                    SangforAuthManager.getInstance().vpnLogout();
+                }
+                isEnableVpn = isChecked;
+                setLoginInfo();
+                viewVpnCfg.setVisibility(isEnableVpn ? View.VISIBLE : View.GONE);
             }
         });
 
@@ -150,6 +173,10 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
     }
 
     private void doVPNLogin() {
+        if (!getIsEnableVpn()) {
+            return;
+        }
+
         // 开始认证前进行数据检查,如有错误直接返回，不进行登录流程
         if (!getValueFromView()) return;
         //开启登录流程
@@ -168,9 +195,10 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         mVpnAddress = sharedPreferences.getString("VpnAddress", mVpnAddress);
         mUserName = sharedPreferences.getString("UserName", mUserName);
         mUserPassword = sharedPreferences.getString("UserPassword", mUserPassword);
+        isEnableVpn = sharedPreferences.getBoolean("isEnableVpn", true);
 
         if (TextUtils.isEmpty(webViewIp) || TextUtils.isEmpty(mVpnAddress) || TextUtils.isEmpty(mUserName) || TextUtils.isEmpty(mUserPassword)) {
-            viewSetting.setVisibility(View.VISIBLE);
+            //viewSetting.setVisibility(View.VISIBLE);
         }
 
         mEnableRefresh.setChecked(isChecked);
@@ -178,6 +206,13 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         mVPNEditText.setText(mVpnAddress);
         mUserNameEditView.setText(mUserName);
         mUserPasswordEditView.setText(mUserPassword);
+        mEnableVPN.setChecked(isEnableVpn);
+        viewVpnCfg.setVisibility(isEnableVpn ? View.VISIBLE : View.GONE);
+    }
+
+    private boolean getIsEnableVpn() {
+        SharedPreferences sharedPreferences = getSharedPreferences("config_fyl", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isEnableVpn", true);
     }
 
     /**
@@ -192,6 +227,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         editor.putString("UserName", mUserName);
         editor.putString("UserPassword", mUserPassword);
         editor.putString("WebViewAddress", refreshWebView.getBaseUrl());
+        editor.putBoolean("isEnableVpn", mEnableVPN.isChecked());
         editor.apply();
     }
 
