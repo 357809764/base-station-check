@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sy.yanshou"
+    package="com.sy.yanshou.sanming.wuxian"
     android:versionCode="3"
     android:versionName="3.0">
 
@@ -54,7 +54,7 @@
         <!-- 7.0以上系统版本，调用相机需定义FileProvider，并且指定目录 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.fyl.fileprovider"
+            android:authorities="com.fyl.fileprovider2"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

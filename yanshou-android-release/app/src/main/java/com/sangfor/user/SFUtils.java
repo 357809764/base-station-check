@@ -1,7 +1,7 @@
 package com.sangfor.user;
 
 import com.sangfor.ssl.IConstants;
-import com.sy.yanshou.R;
+import com.sy.yanshou.sanming.wuxian.R;
 
 public class SFUtils implements IConstants {
 

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.vpn.vpndemo.LoginActivity;
 import com.sy.yanshou.bean.NetChangeEvent;
+import com.sy.yanshou.sanming.wuxian.R;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
@@ -335,7 +336,7 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= 24) {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
-            uri = FileProvider.getUriForFile(MainActivity.this, "com.fyl.fileprovider", file);
+            uri = FileProvider.getUriForFile(MainActivity.this, "com.fyl.fileprovider2", file);
         } else {
             uri = Uri.fromFile(file);
         }

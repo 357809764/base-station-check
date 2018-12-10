@@ -2,7 +2,6 @@ package com.sangfor.vpn.vpndemo;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.AsyncTask;
@@ -28,7 +27,7 @@ import com.sangfor.ssl.ChangePasswordResult;
 import com.sangfor.ssl.SangforAuthManager;
 import com.sangfor.ssl.service.utils.logger.Log;
 import com.sangfor.user.SangforAuthDialog;
-import com.sy.yanshou.R;
+import com.sy.yanshou.sanming.wuxian.R;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

@@ -38,7 +38,7 @@ import com.sangfor.ssl.StatusChangedReason;
 import com.sangfor.ssl.common.ErrorCode;
 import com.sangfor.user.SFUtils;
 import com.sangfor.user.SangforAuthDialog;
-import com.sy.yanshou.R;
+import com.sy.yanshou.sanming.wuxian.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;

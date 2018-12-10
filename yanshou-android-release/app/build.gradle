@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "com.sy.yanshou"
+        applicationId "com.sy.yanshou.sanming.wuxian"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 3

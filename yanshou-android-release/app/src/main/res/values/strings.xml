@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">基站验收</string>
+    <string name="app_name">三明无线</string>
 
     <string name="str_svpn_ip">IP</string>
     <string name="str_svpn_port">443</string>
