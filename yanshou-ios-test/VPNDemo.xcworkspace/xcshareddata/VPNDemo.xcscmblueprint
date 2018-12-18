@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9c576b02-8477-477f-a88b-4a62d7cf70a5++8324",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++8324" : {
+
+    },
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++4417" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++8324" : 0,
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++4417" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AFBF1EDE-D19E-4494-BEFC-D10F2E996B3B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++8324" : "EasyApp-CUSTOM\/Source\/IOS\/SangforSdk\/SangforSdk\/libAuth\/",
+    "9c576b02-8477-477f-a88b-4a62d7cf70a5++4417" : "EasyApp-CUSTOM\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "VPNDemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Source\/IOS\/VPNDemo\/VPNDemo.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/199.200.0.40\/ssl\/dev",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9c576b02-8477-477f-a88b-4a62d7cf70a5++4417"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/199.200.0.40\/ssl\/dev",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9c576b02-8477-477f-a88b-4a62d7cf70a5++8324"
+    }
+  ]
+}

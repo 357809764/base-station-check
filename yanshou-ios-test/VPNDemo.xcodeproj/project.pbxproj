@@ -1,0 +1,603 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D08CF621F4F0C900085FB0F /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */; };
+		2D08CF671F4F0CBE0085FB0F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */; };
+		2D08CF6B1F4F0CD80085FB0F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */; };
+		2D08CF6D1F4F0CE60085FB0F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF6C1F4F0CE50085FB0F /* libxml2.tbd */; };
+		2D08CF6F1F4F0D5D0085FB0F /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF6E1F4F0D5C0085FB0F /* libicucore.tbd */; };
+		2D08CF711F4F0D6B0085FB0F /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF701F4F0D6B0085FB0F /* AdSupport.framework */; };
+		2D08CF761F500B550085FB0F /* RandAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D08CF751F500B550085FB0F /* RandAlertView.m */; };
+		2D0F764B1F4D9DD300CC7495 /* SFNetworkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D0F76481F4D9DB900CC7495 /* SFNetworkingManager.m */; };
+		2D0F76501F4DA1D100CC7495 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D0F764F1F4DA0B800CC7495 /* background.png */; };
+		2D1A4E551F5169D500DBBA5C /* NetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1A4E501F5169D300DBBA5C /* NetworkViewController.m */; };
+		2D1A4E561F516F4B00DBBA5C /* NetworkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D1A4E531F5169D400DBBA5C /* NetworkViewController.xib */; };
+		2D2B41F41F4E72D9002B90DE /* DLRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2B41F31F4E72D9002B90DE /* DLRadioButton.m */; };
+		2D6DEF931F4EB9FC000B38B4 /* AuthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6DEF921F4EB9FC000B38B4 /* AuthTableViewCell.m */; };
+		2D6DEF9A1F4EC283000B38B4 /* addr.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF991F4EC0B9000B38B4 /* addr.png */; };
+		2D6DEF9B1F4EC283000B38B4 /* addr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF981F4EC0B9000B38B4 /* addr@2x.png */; };
+		2D6DEF9C1F4EC283000B38B4 /* pwd.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF941F4EC0B9000B38B4 /* pwd.png */; };
+		2D6DEF9D1F4EC283000B38B4 /* pwd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF961F4EC0B9000B38B4 /* pwd@2x.png */; };
+		2D6DEF9E1F4EC283000B38B4 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF951F4EC0B9000B38B4 /* user.png */; };
+		2D6DEF9F1F4EC283000B38B4 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF971F4EC0B9000B38B4 /* user@2x.png */; };
+		2D9B1A961F5E8BBA002A4884 /* SmsAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9B1A951F5E8BBA002A4884 /* SmsAlertView.m */; };
+		2DBB41BB1F4D991900341BBB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBB41BA1F4D991900341BBB /* AppDelegate.m */; };
+		2DBB41C31F4D991900341BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB41C21F4D991900341BBB /* Assets.xcassets */; };
+		2DBB41C61F4D991900341BBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB41C41F4D991900341BBB /* LaunchScreen.storyboard */; };
+		2DBB41C91F4D991900341BBB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBB41C81F4D991900341BBB /* main.m */; };
+		A3853DF41FEA47AC00B8907A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */; };
+		A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */; };
+		C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */; };
+		CC722DD12132D24E00C61256 /* VpnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DCF2132D24E00C61256 /* VpnViewController.m */; };
+		CC722DD22132D24E00C61256 /* VpnViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC722DD02132D24E00C61256 /* VpnViewController.xib */; };
+		CC722DD52132E57C00C61256 /* MaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DD42132E57C00C61256 /* MaskView.m */; };
+		CC9FD3AC212AB25200BC2D64 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CC9FD3AE212AD6A600BC2D64 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		2D08CF681F4F0CCA0085FB0F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		2D08CF6C1F4F0CE50085FB0F /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		2D08CF6E1F4F0D5C0085FB0F /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		2D08CF701F4F0D6B0085FB0F /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		2D08CF741F500B540085FB0F /* RandAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RandAlertView.h; sourceTree = "<group>"; };
+		2D08CF751F500B550085FB0F /* RandAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RandAlertView.m; sourceTree = "<group>"; };
+		2D0F76471F4D9DB900CC7495 /* SFNetworkingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFNetworkingManager.h; sourceTree = "<group>"; };
+		2D0F76481F4D9DB900CC7495 /* SFNetworkingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFNetworkingManager.m; sourceTree = "<group>"; };
+		2D0F764F1F4DA0B800CC7495 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		2D0F76511F4DA44900CC7495 /* CertificatePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CertificatePickerView.m; sourceTree = "<group>"; };
+		2D0F76521F4DA44900CC7495 /* CertificatePickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CertificatePickerView.h; sourceTree = "<group>"; };
+		2D1A4E501F5169D300DBBA5C /* NetworkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkViewController.m; sourceTree = "<group>"; };
+		2D1A4E531F5169D400DBBA5C /* NetworkViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NetworkViewController.xib; sourceTree = "<group>"; };
+		2D1A4E541F5169D400DBBA5C /* NetworkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkViewController.h; sourceTree = "<group>"; };
+		2D2B41F21F4E72D9002B90DE /* DLRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLRadioButton.h; sourceTree = "<group>"; };
+		2D2B41F31F4E72D9002B90DE /* DLRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLRadioButton.m; sourceTree = "<group>"; };
+		2D6479AC1F556AEB009EED59 /* VPNDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VPNDemo.entitlements; sourceTree = "<group>"; };
+		2D6479B51F557266009EED59 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2D6DEF911F4EB9FC000B38B4 /* AuthTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthTableViewCell.h; sourceTree = "<group>"; };
+		2D6DEF921F4EB9FC000B38B4 /* AuthTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthTableViewCell.m; sourceTree = "<group>"; };
+		2D6DEF941F4EC0B9000B38B4 /* pwd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pwd.png; sourceTree = "<group>"; };
+		2D6DEF951F4EC0B9000B38B4 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
+		2D6DEF961F4EC0B9000B38B4 /* pwd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pwd@2x.png"; sourceTree = "<group>"; };
+		2D6DEF971F4EC0B9000B38B4 /* user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user@2x.png"; sourceTree = "<group>"; };
+		2D6DEF981F4EC0B9000B38B4 /* addr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addr@2x.png"; sourceTree = "<group>"; };
+		2D6DEF991F4EC0B9000B38B4 /* addr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addr.png; sourceTree = "<group>"; };
+		2D9B1A941F5E8BBA002A4884 /* SmsAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmsAlertView.h; sourceTree = "<group>"; };
+		2D9B1A951F5E8BBA002A4884 /* SmsAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmsAlertView.m; sourceTree = "<group>"; };
+		2DBB41B61F4D991800341BBB /* VPNDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPNDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DBB41B91F4D991900341BBB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2DBB41BA1F4D991900341BBB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2DBB41C21F4D991900341BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2DBB41C51F4D991900341BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2DBB41C71F4D991900341BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DBB41C81F4D991900341BBB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2F356AF8D1AE97C20C880756 /* Pods-VPNDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPNDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo.release.xcconfig"; sourceTree = "<group>"; };
+		6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VPNDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		754D6651765D20F847BB058E /* Pods-VPNDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VPNDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CC722DCE2132D24E00C61256 /* VpnViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VpnViewController.h; sourceTree = "<group>"; };
+		CC722DCF2132D24E00C61256 /* VpnViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VpnViewController.m; sourceTree = "<group>"; };
+		CC722DD02132D24E00C61256 /* VpnViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VpnViewController.xib; sourceTree = "<group>"; };
+		CC722DD32132E57C00C61256 /* MaskView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaskView.h; sourceTree = "<group>"; };
+		CC722DD42132E57C00C61256 /* MaskView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MaskView.m; sourceTree = "<group>"; };
+		CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2DBB41B31F4D991800341BBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */,
+				2D08CF671F4F0CBE0085FB0F /* SystemConfiguration.framework in Frameworks */,
+				2D08CF711F4F0D6B0085FB0F /* AdSupport.framework in Frameworks */,
+				2D08CF621F4F0C900085FB0F /* libresolv.9.tbd in Frameworks */,
+				A3853DF41FEA47AC00B8907A /* libsqlite3.0.tbd in Frameworks */,
+				2D08CF6B1F4F0CD80085FB0F /* libc++.tbd in Frameworks */,
+				2D08CF6D1F4F0CE60085FB0F /* libxml2.tbd in Frameworks */,
+				CC9FD3AC212AB25200BC2D64 /* NetworkExtension.framework in Frameworks */,
+				2D08CF6F1F4F0D5D0085FB0F /* libicucore.tbd in Frameworks */,
+				C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2D0F763C1F4D9DB900CC7495 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2D2B41F21F4E72D9002B90DE /* DLRadioButton.h */,
+				2D2B41F31F4E72D9002B90DE /* DLRadioButton.m */,
+				2D0F76521F4DA44900CC7495 /* CertificatePickerView.h */,
+				2D0F76511F4DA44900CC7495 /* CertificatePickerView.m */,
+				2D6DEF911F4EB9FC000B38B4 /* AuthTableViewCell.h */,
+				2D6DEF921F4EB9FC000B38B4 /* AuthTableViewCell.m */,
+				2D08CF741F500B540085FB0F /* RandAlertView.h */,
+				2D08CF751F500B550085FB0F /* RandAlertView.m */,
+				2D9B1A941F5E8BBA002A4884 /* SmsAlertView.h */,
+				2D9B1A951F5E8BBA002A4884 /* SmsAlertView.m */,
+				CC722DD32132E57C00C61256 /* MaskView.h */,
+				CC722DD42132E57C00C61256 /* MaskView.m */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		2D0F76421F4D9DB900CC7495 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2D1A4E541F5169D400DBBA5C /* NetworkViewController.h */,
+				2D1A4E501F5169D300DBBA5C /* NetworkViewController.m */,
+				2D1A4E531F5169D400DBBA5C /* NetworkViewController.xib */,
+				CC722DCE2132D24E00C61256 /* VpnViewController.h */,
+				CC722DCF2132D24E00C61256 /* VpnViewController.m */,
+				CC722DD02132D24E00C61256 /* VpnViewController.xib */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2D0F76461F4D9DB900CC7495 /* NETWORK */ = {
+			isa = PBXGroup;
+			children = (
+				2D0F76471F4D9DB900CC7495 /* SFNetworkingManager.h */,
+				2D0F76481F4D9DB900CC7495 /* SFNetworkingManager.m */,
+			);
+			path = NETWORK;
+			sourceTree = "<group>";
+		};
+		2D0F764D1F4DA0B800CC7495 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2D0F764E1F4DA0B800CC7495 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		2D0F764E1F4DA0B800CC7495 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2D6DEF991F4EC0B9000B38B4 /* addr.png */,
+				2D6DEF981F4EC0B9000B38B4 /* addr@2x.png */,
+				2D6DEF941F4EC0B9000B38B4 /* pwd.png */,
+				2D6DEF961F4EC0B9000B38B4 /* pwd@2x.png */,
+				2D6DEF951F4EC0B9000B38B4 /* user.png */,
+				2D6DEF971F4EC0B9000B38B4 /* user@2x.png */,
+				2D0F764F1F4DA0B800CC7495 /* background.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		2DBB41AD1F4D991800341BBB = {
+			isa = PBXGroup;
+			children = (
+				2DBB41B81F4D991800341BBB /* VPNDemo */,
+				2DBB41B71F4D991800341BBB /* Products */,
+				6656128A3D0E537900AA3737 /* Pods */,
+				364A996A7BA4FFE935732C7A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2DBB41B71F4D991800341BBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DBB41B61F4D991800341BBB /* VPNDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2DBB41B81F4D991800341BBB /* VPNDemo */ = {
+			isa = PBXGroup;
+			children = (
+				2D6479AC1F556AEB009EED59 /* VPNDemo.entitlements */,
+				2D0F76461F4D9DB900CC7495 /* NETWORK */,
+				2D0F763C1F4D9DB900CC7495 /* UI */,
+				2D0F76421F4D9DB900CC7495 /* ViewController */,
+				2D0F764D1F4DA0B800CC7495 /* Resources */,
+				2DBB41BA1F4D991900341BBB /* AppDelegate.m */,
+				2DBB41B91F4D991900341BBB /* AppDelegate.h */,
+				2DBB41C21F4D991900341BBB /* Assets.xcassets */,
+				2DBB41C41F4D991900341BBB /* LaunchScreen.storyboard */,
+				2DBB41C71F4D991900341BBB /* Info.plist */,
+				2DBB41C81F4D991900341BBB /* main.m */,
+			);
+			path = VPNDemo;
+			sourceTree = "<group>";
+		};
+		364A996A7BA4FFE935732C7A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC9FD3AB212AB25200BC2D64 /* NetworkExtension.framework */,
+				A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */,
+				2D6479B51F557266009EED59 /* Security.framework */,
+				2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */,
+				2D08CF701F4F0D6B0085FB0F /* AdSupport.framework */,
+				2D08CF6E1F4F0D5C0085FB0F /* libicucore.tbd */,
+				2D08CF6C1F4F0CE50085FB0F /* libxml2.tbd */,
+				2D08CF6A1F4F0CD80085FB0F /* libc++.tbd */,
+				2D08CF681F4F0CCA0085FB0F /* MobileCoreServices.framework */,
+				2D08CF661F4F0CBE0085FB0F /* SystemConfiguration.framework */,
+				2D08CF5F1F4F0C900085FB0F /* libresolv.9.tbd */,
+				6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6656128A3D0E537900AA3737 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				754D6651765D20F847BB058E /* Pods-VPNDemo.debug.xcconfig */,
+				2F356AF8D1AE97C20C880756 /* Pods-VPNDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2DBB41B51F4D991800341BBB /* VPNDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DBB41CC1F4D991900341BBB /* Build configuration list for PBXNativeTarget "VPNDemo" */;
+			buildPhases = (
+				AE718BC25A0CE53B3975E9BA /* [CP] Check Pods Manifest.lock */,
+				2DBB41B21F4D991800341BBB /* Sources */,
+				2DBB41B31F4D991800341BBB /* Frameworks */,
+				2DBB41B41F4D991800341BBB /* Resources */,
+				9E9E276E0756D4790599C743 /* [CP] Embed Pods Frameworks */,
+				EC211643D0A845BCC643910D /* [CP] Copy Pods Resources */,
+				CC9FD3AE212AD6A600BC2D64 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VPNDemo;
+			productName = VPNDemo;
+			productReference = 2DBB41B61F4D991800341BBB /* VPNDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2DBB41AE1F4D991800341BBB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = sangfor;
+				TargetAttributes = {
+					2DBB41B51F4D991800341BBB = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 1;
+							};
+							com.apple.VPNLite = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 2DBB41B11F4D991800341BBB /* Build configuration list for PBXProject "VPNDemo" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2DBB41AD1F4D991800341BBB;
+			productRefGroup = 2DBB41B71F4D991800341BBB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2DBB41B51F4D991800341BBB /* VPNDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2DBB41B41F4D991800341BBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D1A4E561F516F4B00DBBA5C /* NetworkViewController.xib in Resources */,
+				2D6DEF9A1F4EC283000B38B4 /* addr.png in Resources */,
+				2D6DEF9B1F4EC283000B38B4 /* addr@2x.png in Resources */,
+				2D6DEF9C1F4EC283000B38B4 /* pwd.png in Resources */,
+				2D6DEF9D1F4EC283000B38B4 /* pwd@2x.png in Resources */,
+				2D6DEF9E1F4EC283000B38B4 /* user.png in Resources */,
+				2D6DEF9F1F4EC283000B38B4 /* user@2x.png in Resources */,
+				2D0F76501F4DA1D100CC7495 /* background.png in Resources */,
+				CC722DD22132D24E00C61256 /* VpnViewController.xib in Resources */,
+				2DBB41C61F4D991900341BBB /* LaunchScreen.storyboard in Resources */,
+				2DBB41C31F4D991900341BBB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9E9E276E0756D4790599C743 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE718BC25A0CE53B3975E9BA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EC211643D0A845BCC643910D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2DBB41B21F4D991800341BBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D2B41F41F4E72D9002B90DE /* DLRadioButton.m in Sources */,
+				CC722DD52132E57C00C61256 /* MaskView.m in Sources */,
+				2D0F764B1F4D9DD300CC7495 /* SFNetworkingManager.m in Sources */,
+				CC722DD12132D24E00C61256 /* VpnViewController.m in Sources */,
+				2D6DEF931F4EB9FC000B38B4 /* AuthTableViewCell.m in Sources */,
+				2D1A4E551F5169D500DBBA5C /* NetworkViewController.m in Sources */,
+				2D9B1A961F5E8BBA002A4884 /* SmsAlertView.m in Sources */,
+				2D08CF761F500B550085FB0F /* RandAlertView.m in Sources */,
+				2DBB41C91F4D991900341BBB /* main.m in Sources */,
+				2DBB41BB1F4D991900341BBB /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2DBB41C41F4D991900341BBB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DBB41C51F4D991900341BBB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2DBB41CA1F4D991900341BBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2DBB41CB1F4D991900341BBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2DBB41CD1F4D991900341BBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 754D6651765D20F847BB058E /* Pods-VPNDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VPNDemo/VPNDemo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QK6QDTHT9D;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = VPNDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VPNDemo/SANGFOR",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nd.test123456;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		2DBB41CE1F4D991900341BBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F356AF8D1AE97C20C880756 /* Pods-VPNDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VPNDemo/VPNDemo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QK6QDTHT9D;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = VPNDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VPNDemo/SANGFOR",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nd.test123456;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "42b2051e-04db-4795-9b39-0bbeee8a4160";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2DBB41B11F4D991800341BBB /* Build configuration list for PBXProject "VPNDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DBB41CA1F4D991900341BBB /* Debug */,
+				2DBB41CB1F4D991900341BBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2DBB41CC1F4D991900341BBB /* Build configuration list for PBXNativeTarget "VPNDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DBB41CD1F4D991900341BBB /* Debug */,
+				2DBB41CE1F4D991900341BBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2DBB41AE1F4D991800341BBB /* Project object */;
+}
