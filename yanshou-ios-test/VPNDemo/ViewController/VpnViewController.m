@@ -187,7 +187,8 @@
     NSString *password = _pswTextField.text;
 //    [_sdkManager startPasswordAuthLogin:_mode vpnAddress:vpnUrl username:username password:password];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self onLoginSuccess];
 }
 
 ///点击bypass模式按钮
@@ -197,7 +198,8 @@
 }
 
 - (IBAction)onSettingClicked:(id)sender {
-    [_ipTextField setText:@"https://218.85.155.91:443"];
+//    [_ipTextField setText:@"https://218.85.155.91:443"];
+    [_ipTextField setText:@"https://www.baidu.com/"];
     [_userTextField setText:@"fjzhengxy"];
     [_pswTextField setText:@"aqgz.#2000GXB"];
 }
