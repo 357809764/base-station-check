@@ -29,13 +29,13 @@
 		2D6DEF9F1F4EC283000B38B4 /* user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D6DEF971F4EC0B9000B38B4 /* user@2x.png */; };
 		2D9B1A961F5E8BBA002A4884 /* SmsAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9B1A951F5E8BBA002A4884 /* SmsAlertView.m */; };
 		2DBB41BB1F4D991900341BBB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBB41BA1F4D991900341BBB /* AppDelegate.m */; };
-		2DBB41C31F4D991900341BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB41C21F4D991900341BBB /* Assets.xcassets */; };
 		2DBB41C61F4D991900341BBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB41C41F4D991900341BBB /* LaunchScreen.storyboard */; };
 		2DBB41C91F4D991900341BBB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBB41C81F4D991900341BBB /* main.m */; };
 		A3853DF41FEA47AC00B8907A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D08CF721F4F0DB20085FB0F /* libsqlite3.0.tbd */; };
 		A3B75B3020287ADA006ADFA9 /* libSangforSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A3853DF21FEA479900B8907A /* libSangforSdk.a */; };
 		A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */; };
 		C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */; };
+		CC67CF4221CD45F50057CE8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC67CF4121CD45F50057CE8C /* Assets.xcassets */; };
 		CC722DD12132D24E00C61256 /* VpnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DCF2132D24E00C61256 /* VpnViewController.m */; };
 		CC722DD22132D24E00C61256 /* VpnViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC722DD02132D24E00C61256 /* VpnViewController.xib */; };
 		CC722DD52132E57C00C61256 /* MaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DD42132E57C00C61256 /* MaskView.m */; };
@@ -98,7 +98,6 @@
 		2DBB41B61F4D991800341BBB /* VPNDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPNDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DBB41B91F4D991900341BBB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2DBB41BA1F4D991900341BBB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2DBB41C21F4D991900341BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DBB41C51F4D991900341BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2DBB41C71F4D991900341BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DBB41C81F4D991900341BBB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		A33CDC3B1FDEA69000DC6F0E /* errheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = errheader.h; sourceTree = "<group>"; };
 		A3853DF21FEA479900B8907A /* libSangforSdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSangforSdk.a; sourceTree = "<group>"; };
 		A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CC67CF4121CD45F50057CE8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC722DCE2132D24E00C61256 /* VpnViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VpnViewController.h; sourceTree = "<group>"; };
 		CC722DCF2132D24E00C61256 /* VpnViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VpnViewController.m; sourceTree = "<group>"; };
 		CC722DD02132D24E00C61256 /* VpnViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VpnViewController.xib; sourceTree = "<group>"; };
@@ -244,8 +244,8 @@
 				2D0F764D1F4DA0B800CC7495 /* Resources */,
 				2DBB41BA1F4D991900341BBB /* AppDelegate.m */,
 				2DBB41B91F4D991900341BBB /* AppDelegate.h */,
-				2DBB41C21F4D991900341BBB /* Assets.xcassets */,
 				2DBB41C41F4D991900341BBB /* LaunchScreen.storyboard */,
+				CC67CF4121CD45F50057CE8C /* Assets.xcassets */,
 				2DBB41C71F4D991900341BBB /* Info.plist */,
 				2DBB41C81F4D991900341BBB /* main.m */,
 			);
@@ -291,7 +291,6 @@
 				2DBB41B21F4D991800341BBB /* Sources */,
 				2DBB41B31F4D991800341BBB /* Frameworks */,
 				2DBB41B41F4D991800341BBB /* Resources */,
-				9E9E276E0756D4790599C743 /* [CP] Embed Pods Frameworks */,
 				EC211643D0A845BCC643910D /* [CP] Copy Pods Resources */,
 				CC9FD3AE212AD6A600BC2D64 /* Embed App Extensions */,
 			);
@@ -315,7 +314,7 @@
 				TargetAttributes = {
 					2DBB41B51F4D991800341BBB = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -355,6 +354,7 @@
 			files = (
 				2D1A4E561F516F4B00DBBA5C /* NetworkViewController.xib in Resources */,
 				2D6DEF9A1F4EC283000B38B4 /* addr.png in Resources */,
+				CC67CF4221CD45F50057CE8C /* Assets.xcassets in Resources */,
 				2D6DEF9B1F4EC283000B38B4 /* addr@2x.png in Resources */,
 				2D6DEF9C1F4EC283000B38B4 /* pwd.png in Resources */,
 				2D6DEF9D1F4EC283000B38B4 /* pwd@2x.png in Resources */,
@@ -363,41 +363,28 @@
 				2D0F76501F4DA1D100CC7495 /* background.png in Resources */,
 				CC722DD22132D24E00C61256 /* VpnViewController.xib in Resources */,
 				2DBB41C61F4D991900341BBB /* LaunchScreen.storyboard in Resources */,
-				2DBB41C31F4D991900341BBB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9E9E276E0756D4790599C743 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AE718BC25A0CE53B3975E9BA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VPNDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC211643D0A845BCC643910D /* [CP] Copy Pods Resources */ = {
@@ -406,13 +393,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-resources.sh",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VPNDemo/Pods-VPNDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -561,8 +551,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = VPNDemo/VPNDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = PVQ4AUZMAK;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UW7G2PY6UH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VPNDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -571,10 +561,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VPNDemo/SANGFOR",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fyl.yanshou;
+				PRODUCT_BUNDLE_IDENTIFIER = angel.test.demo123456;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "42b2051e-04db-4795-9b39-0bbeee8a4160";
-				PROVISIONING_PROFILE_SPECIFIER = "yanshou-fyl";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -586,8 +576,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = VPNDemo/VPNDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = PVQ4AUZMAK;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UW7G2PY6UH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = VPNDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -596,10 +586,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VPNDemo/SANGFOR",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fyl.yanshou;
+				PRODUCT_BUNDLE_IDENTIFIER = angel.test.demo123456;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "42b2051e-04db-4795-9b39-0bbeee8a4160";
-				PROVISIONING_PROFILE_SPECIFIER = "yanshou-fyl";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

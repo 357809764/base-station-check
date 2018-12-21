@@ -18,11 +18,14 @@
 #import "errheader.h"
 #import <sys/utsname.h>
 
-#define kVpnIp      @"vpnIp"       //VPN地址
-#define kPort       @"vpnport"     //VPN端口号
-#define kUser       @"vpnuser"     //VPN用户名
-#define kPsw        @"vpnpsw"       //VPN密码
-#define kVpnModel   @"vpnModel"     //VPN模式
+#define kWebViewIp      @"webViewIp"    //网页地址
+#define kVpnIp          @"vpnIp"       //VPN地址
+#define kPort           @"vpnport"     //VPN端口号
+#define kUser           @"vpnuser"     //VPN用户名
+#define kPsw            @"vpnpsw"      //VPN密码
+#define kVpnModel       @"vpnModel"    //VPN模式
+#define kEnableRefresh  @"enableRefresh"
+#define kEnableVpn      @"enableVpn"
 
 @interface VpnViewController ()<UITableViewDelegate,UITableViewDataSource,SangforAuthDelegate>
 
@@ -69,14 +72,19 @@
     
     self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];
     [self.view addSubview:self.networkController.view];
+    [self.networkController enableRefresh:_btnEnableRefresh.selected];
     
-    NSString *vpnIp = _ipTextField.text;
-    NSString *userName = _userTextField.text;
-    NSString *password = _pswTextField.text;
-    if (vpnIp.length > 0 && userName.length > 0 && password.length > 0) {
-        [self onLoginBtnPressed:nil];
+    if (self.btnEnableVpn.selected) {
+        NSString *vpnIp = _ipTextField.text;
+        NSString *userName = _userTextField.text;
+        NSString *password = _pswTextField.text;
+        if (vpnIp.length > 0 && userName.length > 0 && password.length > 0) {
+            [self onLoginBtnPressed:nil];
+        } else {
+            //self.networkController.view.hidden = YES;
+        }
     } else {
-        self.networkController.view.hidden = YES;
+        [self onLoginBtnPressed:nil];
     }
 }
 
@@ -85,6 +93,11 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transformView:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    [self updateSetView];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -103,6 +116,11 @@
         [self.networkController.view setFrame:rect];
     }
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+   [self updateSetView];
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -152,6 +170,9 @@
 -(void)viewTapped:(UITapGestureRecognizer*)tapRecognizer
 {
     [self.view endEditing:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(100 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+        [self updateSetView];
+    });
 }
 
 ///键盘弹起消失
@@ -173,21 +194,29 @@
     //    } else if(keyboardFrame.origin.y >= self.view.height) {
     //        [self.view setFrame:CGRectMake(self.view.left, 0,  self.view.width, self.view.height)];
     //    }
+    
+    [self updateSetView];
 }
 
 #pragma mark - 点击按钮事件
 //点击登录按钮
 - (IBAction)onLoginBtnPressed:(id)sender {
-    //创建VPN的地址
-    NSURL *vpnUrl = [NSURL URLWithString:_ipTextField.text];
-    _authType = VPNAuthTypePassword;
-    
-    //密码认证
-    NSString *username = _userTextField.text;
-    NSString *password = _pswTextField.text;
-    [_sdkManager startPasswordAuthLogin:_mode vpnAddress:vpnUrl username:username password:password];
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (self.btnEnableVpn.isSelected) {
+        //创建VPN的地址
+        NSURL *vpnUrl = [NSURL URLWithString:_ipTextField.text];
+        _authType = VPNAuthTypePassword;
+        
+        //密码认证
+        NSString *username = _userTextField.text;
+        NSString *password = _pswTextField.text;
+        [_sdkManager startPasswordAuthLogin:_mode vpnAddress:vpnUrl username:username password:password];
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    } else {
+        self.networkController.url = _netIpTextField.text;
+        [self.networkController load];
+        self.networkController.view.hidden = NO;
+    }
 }
 
 ///点击bypass模式按钮
@@ -197,6 +226,7 @@
 }
 
 - (IBAction)onSettingClicked:(id)sender {
+    [_netIpTextField setText:@"http://www.zzwankun.com/test.html"];//http://134.129.112.108:3694/?ys_ver=i1
     [_ipTextField setText:@"https://218.85.155.91:443"];
     [_userTextField setText:@"fjzhengxy"];
     [_pswTextField setText:@"aqgz.#2000GXB"];
@@ -206,12 +236,55 @@
 
 - (IBAction)onHideSetClicked:(id)sender {
     self.networkController.view.hidden = NO;
-    if (self.isFirst) {
-        [self.networkController load];
-        self.isFirst = NO;
-    } else {
-        [self.networkController reload];
+    //    if (self.isFirst) {
+    //        [self.networkController load];
+    //        self.isFirst = NO;
+    //    } else {
+    //        [self.networkController reload];
+    //    }
+}
+- (IBAction)onEnableRefreshClicked:(id)sender {
+    self.btnEnableRefresh.selected = !self.btnEnableRefresh.isSelected;
+    [self.networkController enableRefresh:self.btnEnableRefresh.isSelected];
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:_btnEnableRefresh.isSelected forKey:kEnableRefresh];
+    [userDefault setBool:_btnEnableVpn.isSelected forKey:kEnableVpn];
+}
+- (IBAction)onVpnBtnClicked:(id)sender {
+    self.btnEnableVpn.selected = !self.btnEnableVpn.isSelected;
+    
+    BOOL isSelected = self.btnEnableVpn.isSelected;
+    if (!isSelected) {
+        [[SangforAuthManager getInstance] vpnLogout];
     }
+    
+    [self updateSetView];
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:_btnEnableRefresh.isSelected forKey:kEnableRefresh];
+    [userDefault setBool:_btnEnableVpn.isSelected forKey:kEnableVpn];
+}
+
+- (void)updateSetView {
+    BOOL isSelected = self.btnEnableVpn.isSelected;
+   
+    static float setsViewY = -1;
+    if (setsViewY < 0) {
+        setsViewY = _btnSetsView.frame.origin.y;
+    }
+
+    CGRect ipRect = _vpnCfgView.bounds;
+    ipRect.size.height = isSelected ? 120 : 0;
+    _vpnCfgView.bounds = ipRect;
+    _vpnCfgView.hidden = !isSelected;
+
+    CGRect btnSetsRect = _btnSetsView.frame;
+    btnSetsRect.origin.y = isSelected ? setsViewY : setsViewY - 120;//isSelected ? 120 : -120;
+    _btnSetsView.frame = btnSetsRect;
+    
+    [self.view layoutIfNeeded];
+    [self.view layoutSubviews];
 }
 
 #pragma mark - UITableViewDelegate
@@ -585,17 +658,19 @@
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self saveUserConf];
     
-//    if (!_networkController) {
-//        self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];
-//    }
-//    [self.navigationController pushViewController:_networkController animated:YES];
+    //    if (!_networkController) {
+    //        self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];
+    //    }
+    //    [self.navigationController pushViewController:_networkController animated:YES];
     
     self.networkController.view.hidden = NO;
+    self.networkController.url = _netIpTextField.text;
     if (self.isFirst) {
         [self.networkController load];
         self.isFirst = NO;
     } else {
-        [self.networkController reload];
+        //[self.networkController reload];
+        [self.networkController load];
     }
 }
 
@@ -618,9 +693,12 @@
 -(void)saveUserConf
 {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setValue:_netIpTextField.text forKey:kWebViewIp];
     [userDefault setValue:_ipTextField.text forKey:kVpnIp];
     [userDefault setValue:_userTextField.text forKey:kUser];
     [userDefault setValue:_pswTextField.text forKey:kPsw];
+    [userDefault setBool:_btnEnableRefresh.isSelected forKey:kEnableRefresh];
+    [userDefault setBool:_btnEnableVpn.isSelected forKey:kEnableVpn];
 }
 
 /**
@@ -636,6 +714,13 @@
         [_userTextField setText:userName];
         [_pswTextField setText:password];
     }
+    _netIpTextField.text = [userDefault valueForKey:kWebViewIp];
+    
+    NSNumber *enableRefresh = [userDefault valueForKey:kEnableRefresh];
+    _btnEnableRefresh.selected = enableRefresh == nil ? YES : enableRefresh.boolValue;
+    
+    NSNumber *enableVpn = [userDefault valueForKey:kEnableVpn];
+    _btnEnableVpn.selected = enableRefresh == nil ? YES : enableVpn.boolValue;    
 }
 
 #pragma mark - alert View

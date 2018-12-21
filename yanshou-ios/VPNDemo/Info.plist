@@ -33,6 +33,8 @@
 	<string></string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>always</string>
+	<key>NSLocationUsageDescription</key>
+	<string>usaegs</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>loca</string>
 	<key>UIFileSharingEnabled</key>
@@ -47,8 +49,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSLocationUsageDescription</key>
-	<string>usaegs</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

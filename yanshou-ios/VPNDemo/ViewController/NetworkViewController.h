@@ -19,12 +19,15 @@
     __weak IBOutlet UITextView *mLogView;
     __weak IBOutlet UIPickerView *mPickView;
     __weak IBOutlet UITextField *mUrlTf;
+    __weak IBOutlet UILabel *mNetErrorLabel;
 }
 @property (strong, atomic) JSContext *jsContext;
 @property (weak, nonatomic) IBOutlet MaskView *maskView;
 @property (strong, atomic) CLLocationManager *locationManager;
+@property (strong, atomic) NSString *url;
 
 - (void)load;
 - (void)reload;
+- (void)enableRefresh:(BOOL) enable;
 
 @end

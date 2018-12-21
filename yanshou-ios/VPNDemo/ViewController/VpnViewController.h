@@ -11,9 +11,16 @@
 @interface VpnViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIView *setView;
+@property (weak, nonatomic) IBOutlet UITextField *netIpTextField;
+@property (weak, nonatomic) IBOutlet UIView *vpnCfgView;
 @property (weak, nonatomic) IBOutlet UITextField *ipTextField;
 @property (weak, nonatomic) IBOutlet UITextField *userTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pswTextField;
+
+@property (weak, nonatomic) IBOutlet UIView *btnSetsView;
+@property (weak, nonatomic) IBOutlet UIButton *btnEnableRefresh;
+@property (weak, nonatomic) IBOutlet UIButton *btnEnableVpn;
+
 
 @property (strong, atomic) NSString *vpnIp;
 @property (strong, atomic) NSString *userName;
