@@ -12,11 +12,12 @@
 //#import "SangforAuthHeader.h"
 #import <CoreImage/CoreImage.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <MJRefresh.h>
 
 static CLLocation *sLocation;
 
 @interface NetworkViewController ()<UIWebViewDelegate>
-
+@property (strong, nonatomic) NSURLSessionDataTask *task;
 @end
 
 #define UIPickerView_Width      ([UIScreen mainScreen].bounds.size.width/2)
@@ -56,7 +57,25 @@ static CLLocation *sLocation;
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloginFailed:) name:VPNReloginFailedNotification object:nil];
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vpnStatusChange:) name:VPNStatusDidChangeNotification object:nil];
     
+    // refresh
+    mWebView.opaque = NO;
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        NSLog(@"下拉刷新");
+        [self reload];
+    }];
+    header.stateLabel.hidden = YES;
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.arrowView.image = nil;
+    mWebView.scrollView.mj_header = header;
+
     [self startLocation];
+}
+
+#pragma mark - 结束下拉刷新和上拉加载
+- (void)endRefresh{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [mWebView.scrollView.mj_header endRefreshing];
+    });
 }
 
 - (void)viewWillUnload
@@ -64,14 +83,26 @@ static CLLocation *sLocation;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)load {
-    //    NSString *url = @"http://120.36.56.152:3694/?ys_ver=i1";
-    NSString *url = @"http://134.129.112.108:3694/?ys_ver=i1";
-    [mWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+- (void)load{
+    [self load:self.url];
+}
+
+- (void)load:(NSString *)url {
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    
+    [mWebView loadRequest:request];
+    mNetErrorLabel.hidden = YES;
 }
 
 - (void)reload {
-    [mWebView reload];
+    mNetErrorLabel.hidden = YES;
+    NSURLRequest *request = [mWebView request];
+    NSString *url = request.URL.absoluteString;
+    if ([url isEqualToString:@"about:blank"]) {
+        [self load:self.url];
+    } else {
+        [mWebView reload];
+    }
 }
 
 /**
@@ -226,9 +257,29 @@ static CLLocation *sLocation;
     }
 }
 
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//
-//}
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *url = request.URL.absoluteString;
+    if (![url isEqualToString:@"about:blank"]) {
+        NSURLSession *session = [NSURLSession sharedSession];
+        if (_task != nil) {
+            [_task cancel];
+            _task = nil;
+        }
+        _task = [session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            NSLog(@"response code = %ld", error.code);
+            if (error.code == -1005 || error.code == -1009) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self load:@"about:blank"];
+                    mNetErrorLabel.hidden = NO;
+                });
+            }
+            [self endRefresh];
+            _task = nil;
+        }];
+        [_task resume];
+    }
+    return YES;
+}
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     _jsContext = [mWebView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];

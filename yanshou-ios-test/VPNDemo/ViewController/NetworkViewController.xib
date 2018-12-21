@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14306.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14278.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NetworkViewController">
             <connections>
                 <outlet property="mLogView" destination="xii-sy-psi" id="hQb-wa-nhr"/>
+                <outlet property="mNetErrorLabel" destination="u63-HT-bRT" id="CJR-25-Aie"/>
                 <outlet property="mPickView" destination="s0Z-mZ-i4u" id="AfF-aX-WJy"/>
                 <outlet property="mUrlTf" destination="DYX-pa-T3p" id="EiX-ZO-Vzp"/>
                 <outlet property="mWebView" destination="OvM-ab-oZI" id="hJc-dQ-K0F"/>
@@ -96,17 +97,30 @@
                         <action selector="btnLinkClicked:" destination="-1" eventType="touchUpInside" id="fZ0-0e-KQo"/>
                     </connections>
                 </button>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务器异常请联系管理员~" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u63-HT-bRT">
+                    <rect key="frame" x="0.0" y="283.5" width="375" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="Qzb-5D-viY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="OvM-ab-oZI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="6hr-nt-yDe"/>
+                <constraint firstAttribute="trailing" secondItem="u63-HT-bRT" secondAttribute="trailing" id="DA1-OZ-PmB"/>
                 <constraint firstAttribute="bottom" secondItem="OvM-ab-oZI" secondAttribute="bottom" id="PGv-te-gf8"/>
                 <constraint firstAttribute="trailing" secondItem="671-tl-Bih" secondAttribute="trailing" id="SVQ-pF-rbc"/>
+                <constraint firstItem="u63-HT-bRT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lDM-SL-Rxh"/>
                 <constraint firstAttribute="trailing" secondItem="OvM-ab-oZI" secondAttribute="trailing" id="qkX-cK-wsi"/>
+                <constraint firstItem="u63-HT-bRT" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="tfJ-oc-Jxy"/>
                 <constraint firstItem="671-tl-Bih" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="xIM-Mo-Mzh"/>
                 <constraint firstItem="OvM-ab-oZI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zV1-QX-pjI"/>
+                <constraint firstItem="u63-HT-bRT" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="zeU-sB-b9q"/>
             </constraints>
-            <point key="canvasLocation" x="179.5" y="136.5"/>
+            <point key="canvasLocation" x="287.19999999999999" y="122.78860569715144"/>
         </view>
     </objects>
 </document>
