@@ -13,10 +13,17 @@
 #import <CoreImage/CoreImage.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <MJRefresh.h>
+#import <WebKit/WebKit.h>
+#import "View+MASAdditions.h"
+#import "UIWebView+TS_JavaScriptContext.h"
 
 static CLLocation *sLocation;
 
-@interface NetworkViewController ()<UIWebViewDelegate>
+@protocol JSObjcDelegate <JSExport>
+- (NSString *)getLocation;
+@end
+
+@interface NetworkViewController ()<UIWebViewDelegate, JSObjcDelegate, TSWebViewDelegate>
 @property (strong, nonatomic) NSURLSessionDataTask *task;
 @property (strong, nonatomic) MJRefreshNormalHeader *header;
 @end
@@ -260,11 +267,23 @@ static CLLocation *sLocation;
     });
 }
 
-#pragma mark -
+#pragma mark - TSWebViewDelegate
+- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext*) ctx {
+    _jsContext = [mWebView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    _jsContext[@"YanShouInterface"] = self;
+}
+
 #pragma mark UIWebViewDelegate
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (error != nil) {
         NSLog(@"加载失败 %@", error);
+        if (error.code == -1005 || error.code == -1009 || [error.localizedDescription containsString:@"request timed out"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self load:@"about:blank"];
+                mNetErrorLabel.hidden = NO;
+            });
+        }
+        [self endRefresh];
     }
 }
 
@@ -287,22 +306,26 @@ static CLLocation *sLocation;
             [self endRefresh];
             _task = nil;
         }];
-        [_task resume];
+//        [_task resume];
     }
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     _jsContext = [mWebView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    _jsContext[@"YanShouInterface"][@"getLocation"] =  ^(){
-        if (sLocation == nil) {
-            return @"{}";
-        }
-        CLLocationCoordinate2D coordinate = sLocation.coordinate;
-        NSLog(@"纬度:%f 经度:%f", coordinate.latitude, coordinate.longitude);
-        return [NSString stringWithFormat:@"{\"latitude\":%f,\"longitude\":%f}", coordinate.latitude, coordinate.longitude];
-    };
+    _jsContext[@"YanShouInterface"] = self;
+    [self endRefresh];
     NSLog(@"");
+}
+
+#pragma mark - JSObjcDelegate
+- (NSString *)getLocation {
+    if (sLocation == nil) {
+        return @"{}";
+    }
+    CLLocationCoordinate2D coordinate = sLocation.coordinate;
+    NSLog(@"纬度:%f 经度:%f", coordinate.latitude, coordinate.longitude);
+    return [NSString stringWithFormat:@"{\"latitude\":%f,\"longitude\":%f}", coordinate.latitude, coordinate.longitude];
 }
 
 #pragma mark -
@@ -326,6 +349,9 @@ static CLLocation *sLocation;
     //开始定位，不断调用其代理方法
     [self.locationManager startUpdatingLocation];
     NSLog(@"start gps");
+    
+    _jsContext = [mWebView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    _jsContext[@"YanShouInterface"] = self;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{

@@ -27,6 +27,7 @@ PODS:
     - Reachability
   - ASIHTTPRequest/S3 (1.8.2):
     - ASIHTTPRequest/Core
+  - Masonry (1.1.0)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.15.7)
   - MKNetworkKit (0.87):
@@ -37,6 +38,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - ASIHTTPRequest (~> 1.8.2)
+  - Masonry
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh
   - MKNetworkKit (~> 0.87)
@@ -46,6 +48,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
     - ASIHTTPRequest
+    - Masonry
     - MBProgressHUD
     - MJRefresh
     - MKNetworkKit
@@ -55,12 +58,13 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   ASIHTTPRequest: ec013992946676b7978dcbde6396d57312d21db4
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   MKNetworkKit: 60ad3c83b62183e40ba75ce772c9427c25b520de
   Reachability: dd9aa4fb6667b9f787690a74f53cb7634ce99893
   SDAutoLayout: 6b6f4db0d009dfc46cef14ef710dbb164e86616c
 
-PODFILE CHECKSUM: 9128e102daee2b7ee7e6d93add5ec05487808558
+PODFILE CHECKSUM: 47ec2d9895e6f0d7d258336bcabf85eae0c2c14a
 
 COCOAPODS: 1.6.0.beta.2

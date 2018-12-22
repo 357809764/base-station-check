@@ -36,6 +36,7 @@
 		A3B75B3420287AF0006ADFA9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */; };
 		C1C7B26D176214AE6DAF3540 /* libPods-VPNDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6074AED434615CEB3D2B49E4 /* libPods-VPNDemo.a */; };
 		CC67CF4221CD45F50057CE8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC67CF4121CD45F50057CE8C /* Assets.xcassets */; };
+		CC67CF4521CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CC67CF4421CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.m */; };
 		CC722DD12132D24E00C61256 /* VpnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DCF2132D24E00C61256 /* VpnViewController.m */; };
 		CC722DD22132D24E00C61256 /* VpnViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC722DD02132D24E00C61256 /* VpnViewController.xib */; };
 		CC722DD52132E57C00C61256 /* MaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC722DD42132E57C00C61256 /* MaskView.m */; };
@@ -108,6 +109,8 @@
 		A3853DF21FEA479900B8907A /* libSangforSdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSangforSdk.a; sourceTree = "<group>"; };
 		A3B75B3320287AF0006ADFA9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		CC67CF4121CD45F50057CE8C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CC67CF4321CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+TS_JavaScriptContext.h"; sourceTree = "<group>"; };
+		CC67CF4421CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+TS_JavaScriptContext.m"; sourceTree = "<group>"; };
 		CC722DCE2132D24E00C61256 /* VpnViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VpnViewController.h; sourceTree = "<group>"; };
 		CC722DCF2132D24E00C61256 /* VpnViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VpnViewController.m; sourceTree = "<group>"; };
 		CC722DD02132D24E00C61256 /* VpnViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VpnViewController.xib; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 		2D0F76421F4D9DB900CC7495 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CC67CF4321CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.h */,
+				CC67CF4421CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.m */,
 				2D1A4E541F5169D400DBBA5C /* NetworkViewController.h */,
 				2D1A4E501F5169D300DBBA5C /* NetworkViewController.m */,
 				2D1A4E531F5169D400DBBA5C /* NetworkViewController.xib */,
@@ -418,6 +423,7 @@
 				2D0F764B1F4D9DD300CC7495 /* SFNetworkingManager.m in Sources */,
 				CC722DD12132D24E00C61256 /* VpnViewController.m in Sources */,
 				2D6DEF931F4EB9FC000B38B4 /* AuthTableViewCell.m in Sources */,
+				CC67CF4521CE12DE0057CE8C /* UIWebView+TS_JavaScriptContext.m in Sources */,
 				2D1A4E551F5169D500DBBA5C /* NetworkViewController.m in Sources */,
 				2D9B1A961F5E8BBA002A4884 /* SmsAlertView.m in Sources */,
 				2D08CF761F500B550085FB0F /* RandAlertView.m in Sources */,

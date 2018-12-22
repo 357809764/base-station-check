@@ -79,12 +79,12 @@
         NSString *userName = _userTextField.text;
         NSString *password = _pswTextField.text;
         if (vpnIp.length > 0 && userName.length > 0 && password.length > 0) {
-            [self onLoginBtnPressed:nil];
+            [self onLoginBtnClicked:nil];
         } else {
             //self.networkController.view.hidden = YES;
         }
     } else {
-        [self onLoginBtnPressed:nil];
+        [self onLoginBtnClicked:nil];
     }
 }
 
@@ -200,7 +200,7 @@
 
 #pragma mark - 点击按钮事件
 //点击登录按钮
-- (IBAction)onLoginBtnPressed:(id)sender {
+- (IBAction)onLoginBtnClicked:(id)sender {
     if (self.btnEnableVpn.isSelected) {
         //创建VPN的地址
         NSURL *vpnUrl = [NSURL URLWithString:_ipTextField.text];
@@ -217,6 +217,7 @@
         [self.networkController load];
         self.networkController.view.hidden = NO;
     }
+    [self saveUserConf];
 }
 
 ///点击bypass模式按钮
@@ -226,7 +227,9 @@
 }
 
 - (IBAction)onSettingClicked:(id)sender {
-    [_netIpTextField setText:@"http://www.zzwankun.com/test.html"];//http://134.129.112.108:3694/?ys_ver=i1
+    //http://www.zzwankun.com/test.html
+    //http://134.129.112.108:3694/?ys_ver=i1
+    [_netIpTextField setText:@"http://134.129.112.108:3694/?ys_ver=i1"];
     [_ipTextField setText:@"https://218.85.155.91:443"];
     [_userTextField setText:@"fjzhengxy"];
     [_pswTextField setText:@"aqgz.#2000GXB"];
@@ -656,7 +659,6 @@
 - (void)onLoginSuccess
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self saveUserConf];
     
     //    if (!_networkController) {
     //        self.networkController = [[NetworkViewController alloc] initWithNibName:@"NetworkViewController" bundle:nil];

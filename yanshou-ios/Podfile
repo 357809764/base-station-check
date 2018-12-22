@@ -7,5 +7,6 @@ target 'VPNDemo' do
 	pod 'ASIHTTPRequest', '~> 1.8.2'
 	pod 'SDAutoLayout', '~>2.1.6'
 	pod 'MBProgressHUD', '~> 1.0.0'
-    pod 'MJRefresh'
+  pod 'MJRefresh'
+  pod 'Masonry'
 end

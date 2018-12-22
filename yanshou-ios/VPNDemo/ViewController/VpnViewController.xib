@@ -280,7 +280,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="onLoginBtnPressed:" destination="-1" eventType="touchUpInside" id="LHN-zH-K4a"/>
+                                        <action selector="onLoginBtnClicked:" destination="-1" eventType="touchUpInside" id="duv-Yg-iZH"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hbh-Dc-jDz">
