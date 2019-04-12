@@ -68,6 +68,12 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         GpsManager.getInstance().init(this);
 
         getLoginInfo();
+
+        //无配置参数自动导入配置
+        String webViewIp = mWebViewIpEditText.getText().toString();
+        if (TextUtils.isEmpty(webViewIp)) {
+            doLoadCfg();
+        }
     }
 
     @Override
@@ -148,14 +154,18 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         findViewById(R.id.btn_vpn_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //"http://www.zzwankun.com/test.html"
-                //mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");//http://134.129.112.108:3694/?ys_ver=i1 120.36.56.152
-                mWebViewIpEditText.setText("http://134.129.112.108:3693/index.asp");
-                mVPNEditText.setText("https://218.85.155.91:443");
-                mUserNameEditView.setText("fjdx#cwwy"); //fjzhengxy
-                mUserPasswordEditView.setText("fjdxDB@#qtG12");//"aqgz.#2000GXB"
+                doLoadCfg();
             }
         });
+    }
+
+    private void doLoadCfg() {
+        //"http://www.zzwankun.com/test.html"
+        //mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");//http://134.129.112.108:3694/?ys_ver=i1 120.36.56.152
+        mWebViewIpEditText.setText("http://134.129.112.108:3693/index.asp");
+        mVPNEditText.setText("https://218.85.155.91:443");
+        mUserNameEditView.setText("fjdx#cwwy"); //fjzhengxy
+        mUserPasswordEditView.setText("fjdxDB@#qtG12");//"aqgz.#2000GXB"
     }
 
     /**
