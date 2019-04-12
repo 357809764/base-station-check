@@ -149,7 +149,8 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             @Override
             public void onClick(View v) {
                 //"http://www.zzwankun.com/test.html"
-                mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");//http://134.129.112.108:3694/?ys_ver=i1 120.36.56.152
+                //mWebViewIpEditText.setText("http://134.129.112.108:3694/?ys_ver=i1");//http://134.129.112.108:3694/?ys_ver=i1 120.36.56.152
+                mWebViewIpEditText.setText("http://134.129.112.108:3693/index.asp");
                 mVPNEditText.setText("https://218.85.155.91:443");
                 mUserNameEditView.setText("fjdx#cwwy"); //fjzhengxy
                 mUserPasswordEditView.setText("fjdxDB@#qtG12");//"aqgz.#2000GXB"
