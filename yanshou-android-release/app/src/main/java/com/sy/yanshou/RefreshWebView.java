@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +20,11 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
+import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -43,8 +46,8 @@ import java.util.IllegalFormatCodePointException;
 
 public class RefreshWebView extends PullToRefreshWebView {
     private static final String TAG = "yanshou";
-    private WebView webView;
-    private Context context;
+    public WebView webView;
+    private Activity activity;
     public TextView tvNetError;
     private ValueCallback<Uri> uploadMessage;  //5.0以下使用
     private ValueCallback<Uri[]> uploadMessageAboveL;   // 5.0及以上使用
@@ -74,7 +77,7 @@ public class RefreshWebView extends PullToRefreshWebView {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView(Context context) {
         webView = getRefreshableView();
-        this.context = context;
+        this.activity = (Activity) context;
         webView.addJavascriptInterface(jsInterface, "YanShouInterface");
 
         tvNetError = new TextView(context);
@@ -129,6 +132,41 @@ public class RefreshWebView extends PullToRefreshWebView {
             @Override
             public void onRefresh(PullToRefreshBase<WebView> refreshView) {
                 reload();
+            }
+        });
+
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(final String url, String userAgent, final String contentDisposition, final String mimetype, long contentLength) {
+                (activity).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 指定下载地址
+                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                        // 允许媒体扫描，根据下载的文件类型被加入相册、音乐等媒体库
+                        request.allowScanningByMediaScanner();
+                        // 设置通知的显示类型，下载进行时和完成后显示通知
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                        // 允许在计费流量下下载
+                        request.setAllowedOverMetered(true);
+                        // 允许该记录在下载管理界面可见
+                        request.setVisibleInDownloadsUi(true);
+                        // 允许漫游时下载
+                        request.setAllowedOverRoaming(true);
+                        // 允许下载的网路类型
+                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
+                        // 设置下载文件保存的路径和文件名
+                        final String fileName  = System.currentTimeMillis() + "-" + URLUtil.guessFileName(url, contentDisposition, mimetype) ;
+                        Log.debug(TAG, "#### onDownloadStart fileName:" + fileName);
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName); // "Download"
+
+                        // 添加一个下载任务
+                        final DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Activity.DOWNLOAD_SERVICE);
+                        long downloadId = downloadManager.enqueue(request);
+                        Log.debug(TAG, "#### onDownloadStart downloadId:" + downloadId);
+                        Toast.makeText(activity, "开始下载：" + fileName, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -67,6 +67,8 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
         GpsManager.getInstance().init(this);
 
         getLoginInfo();
+
+        //refreshWebView.webView.loadUrl("http://wiki.sdp.nd/index.php?title=%E6%96%87%E4%BB%B6:%E6%99%AE%E7%B1%B3_%E8%8A%B1%E5%90%8D%E5%86%8C_%E7%94%A8%E4%BE%8B.xlsx");
     }
 
     @Override
@@ -127,6 +129,35 @@ public class MainActivity extends LoginActivity implements RefreshWebView.WebVie
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 refreshWebView.enablePullRefresh(isChecked);
                 setLoginInfo();
+
+//                String contentDisposition = "";
+//                String mimetype = "application/octet-stream";
+////                String url = "http://wiki.sdp.nd/images/4/4e/%E6%99%AE%E7%B1%B3_%E8%8A%B1%E5%90%8D%E5%86%8C_%E7%94%A8%E4%BE%8B.xlsx";
+//                String url = "http://speedtest.tokyo.linode.com/100MB-tokyo.bin";
+//
+//                // 指定下载地址
+//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+//                // 允许媒体扫描，根据下载的文件类型被加入相册、音乐等媒体库
+//                request.allowScanningByMediaScanner();
+//                // 设置通知的显示类型，下载进行时和完成后显示通知
+//                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//                // 允许在计费流量下下载
+//                request.setAllowedOverMetered(true);
+//                // 允许该记录在下载管理界面可见
+//                request.setVisibleInDownloadsUi(true);
+//                // 允许漫游时下载
+//                request.setAllowedOverRoaming(true);
+//                // 允许下载的网路类型
+//                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
+//                // 设置下载文件保存的路径和文件名
+//                String fileName  = "xxx.mp4";//URLUtil.guessFileName(url, contentDisposition, mimetype);
+//                com.sangfor.ssl.service.utils.logger.Log.debug(TAG, "#### onDownloadStart fileName:" + fileName);
+//                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName); // "Download"
+//                // 添加一个下载任务
+//                final DownloadManager downloadManager = (DownloadManager) getSystemService(Activity.DOWNLOAD_SERVICE);
+//                long downloadId = downloadManager.enqueue(request);
+//                com.sangfor.ssl.service.utils.logger.Log.debug(TAG, "#### onDownloadStart downloadId:" + downloadId);
+//                Toast.makeText(MainActivity.this, "开始下载：" + fileName, Toast.LENGTH_SHORT).show();
             }
         });
 
